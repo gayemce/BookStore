@@ -1,9 +1,14 @@
-﻿namespace BookStoreServer.WebApi.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BookStoreServer.WebApi.Models;
 
 public sealed class BookCategory
 {
-    public int Id { get; set; }
+    [ForeignKey("Book")]
     public int BookId { get; set; }
     public Book Book { get; set; }
+
+    [ForeignKey("Category")]
     public int CategoryId { get; set; }
+    public Category Category { get; set; }
 }

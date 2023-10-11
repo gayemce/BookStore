@@ -11,10 +11,7 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        string searchTerm = "hllr";
         var categories = SeedData.Categories;
-        var closeMatches = categories.Where(c => c.Name.ApproximatelyEquals(searchTerm, 
-            FuzzyStringComparisonOptions.UseJaccardDistance, FuzzyStringComparisonTolerance.Normal)).ToList();
 
         return Ok(SeedData.Categories);
     }
