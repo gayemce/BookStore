@@ -1,7 +1,8 @@
-﻿using BookStoreServer.WebApi.Dtos;
+﻿using BookStoreServer.WebApi.Context;
+using BookStoreServer.WebApi.Dtos;
 using BookStoreServer.WebApi.Models;
-using GSF.FuzzyStrings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace BookStoreServer.WebApi.Controllers;
@@ -10,57 +11,35 @@ namespace BookStoreServer.WebApi.Controllers;
 [ApiController]
 public class BooksController : ControllerBase
 {
-    public BooksController()
-    {
-    }
-
+    //Kitapları Listele
     [HttpPost]
     public IActionResult GetAll(RequestDto request)
     {
-        ResponseDto<List<Book>> response = new();
+        AppDbContext context = new();
 
-        var newBooks = new List<Book>();
-
-        if (request.CategoryId != null)
+        List<Book> books = new();
+        if(request.CategoryId == null) //Tüm kitapları getir.
         {
-            newBooks = SeedData.BookCategories
-           .Where(p => p.CategoryId == request.CategoryId)
-           .Select(s => s.Book)
-           .ToList();
+            books = context.Books
+                .Where(p => p.IsActive == true && p.IsDeleted == false)
+                .Where(p => p.Title.ToLower().Contains(request.Search.ToLower()) || p.ISBN.Contains(request.Search))
+                .OrderByDescending(p => p.CreateAt)
+                .Take(request.PageSize)
+                .ToList();
         }
         else
         {
-            newBooks = SeedData.Books;
+            books = context.BookCategories
+                .Where(p => p.CategoryId == request.CategoryId)
+                .Include(p => p.Book) //Left Join
+                .Select(s => s.Book)
+                .Where(p => p.IsActive == true && p.IsDeleted == false)
+                .Where(p => p.Title.ToLower().Contains(request.Search.ToLower()) || p.ISBN.Contains(request.Search))
+                .OrderByDescending(propa => propa.CreateAt)
+                .Take(request.PageSize)
+                .ToList();
         }
 
-
-        if (!string.IsNullOrEmpty(request.Search))
-        {
-            newBooks = newBooks
-            .Where(b => b.Title.ApproximatelyEquals(request.Search.ToLower(), FuzzyStringComparisonOptions.UseJaccardDistance, FuzzyStringComparisonTolerance.Strong) ||
-                        b.Author.ApproximatelyEquals(request.Search.ToLower(), FuzzyStringComparisonOptions.UseJaccardDistance, FuzzyStringComparisonTolerance.Strong) ||
-                        b.ISBN.ApproximatelyEquals(request.Search.ToLower(), FuzzyStringComparisonOptions.UseJaccardDistance, FuzzyStringComparisonTolerance.Strong))
-            .ToList();
-        }
-
-
-        response.Data = newBooks
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .ToList();
-        response.PageNumber = request.PageNumber;
-        response.PageSize = request.PageSize;
-        response.TotalPageCount = (int)Math.Ceiling(newBooks.Count / (double)request.PageSize);
-        response.IsFirstPage = request.PageNumber == 1;
-        response.IsLastPage = request.PageNumber == response.TotalPageCount;
-
-        return Ok(response);
+        return Ok(books);
     }
-}
-
-public static class SeedData
-{
-    public static List<Book> Books = new ();
-    public static List<Category> Categories = new ();
-    public static List<BookCategory> BookCategories = new ();
 }

@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RequestModel } from '../models/request.model';
+import { BookModel } from '../models/book.model';
+import { ShoppingCartService } from '../services/shopping-cart.service';
+import { SwalService } from '../services/swal.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -8,41 +12,57 @@ import { RequestModel } from '../models/request.model';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  response: any;
+  books: BookModel[] = []; //book.model.ts oluşturuldu
   categories: any = [];
   pageNumbers: number[] = [];
   request: RequestModel = new RequestModel();
   searchCategory: string = "";
+  newData: any[] = [];
 
-  constructor(private http: HttpClient) {
-    this.getAll();
+  constructor(
+    private http: HttpClient,
+    private shopping: ShoppingCartService,
+    private swal: SwalService,
+    private translate: TranslateService
+  ) {
     this.getCategories();
   }
 
-  changeCategory(categoryId: number | null = null){
-    this.request.categoryId = categoryId;
-    this.getAll(1); //Kategori değiştirilirse 1. sayfadan başlasın
+  addShoppingCart(book: BookModel) {
+    this.shopping.shoppingCarts.push(book); //kaydedildi.
+    localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts)); //localStrorage yazdırıldı.
+    this.shopping.count++;
+    this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
+      this.swal.callToast(res);
+    })
   }
 
-  getAll(pageNumber = 1) {
-    this.request.pageNumber = pageNumber;
+  feedData() {
+    this.request.pageSize += 10;
+    this.newData = [];
+    this.getAll();
+  }
+
+  changeCategory(categoryId: number | null = null) {
+    this.request.categoryId = categoryId;
+    this.request.pageSize = 0; //Kategori değiştiğinde kaydı sıfırlar
+    this.feedData();
+  }
+
+  getAll() {
     this.http
-      .post(`https://localhost:7289/api/Books/GetAll/`, this.request)
+      .post<BookModel[]>(`https://localhost:7289/api/Books/GetAll/`, this.request)
       .subscribe(res => {
-        this.response = res;
-        this.setPageNumber();
+        this.books = res;
       })
   }
 
-  getCategories(){
+  getCategories() {
     this.http.get(`https://localhost:7289/api/Categories/GetAll`)
-    .subscribe(res => this.categories = res)
+      .subscribe(res => {
+        this.categories = res;
+        this.getAll();
+      });
   }
 
-  setPageNumber() {
-    this.pageNumbers = [];
-    for (let i = 0; i < this.response.totalPageCount; i++) {
-      this.pageNumbers.push(i + 1);
-    }
-  }
 }

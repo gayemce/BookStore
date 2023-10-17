@@ -1,9 +1,9 @@
 <div class="card mt-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>{{'homePage' | translate}}</h4>
-        <div>
-            <a routerLink="/">{{'home'}}</a>
-        </div>
+        <!-- <div>
+            <a routerLink="/">{{'homePage' | translate}}</a>
+        </div> -->
     </div>
 </div>
 
@@ -17,22 +17,18 @@
             <div class="card-body">
                 <!-- Search -->
                 <div class="input-group mb-3">
-                    <input
-                        [(ngModel)]="searchCategory"
-                        type="search" class="form-control" placeholder="{{'search' | translate}}">
+                    <input [(ngModel)]="searchCategory" type="search" class="form-control"
+                        placeholder="{{'search' | translate}}">
                     <span class="input-group-text" id="basic-addon1">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                 </div>
                 <ul class="categories">
-                    <li
-                        (click)="changeCategory(null)"
-                        [ngClass]="request.categoryId === null ? 'active' : '' ">
+                    <li (click)="changeCategory(null)" [ngClass]="request.categoryId === null ? 'active' : '' ">
                         {{'allCategories' | translate}}
                     </li>
-                    <li 
-                        (click)="changeCategory(c.id)"
-                        [ngClass]="request.categoryId === c.id ? 'active' : '' " *ngFor="let c of categories | category:searchCategory">
+                    <li (click)="changeCategory(c.id)" [ngClass]="request.categoryId === c.id ? 'active' : '' "
+                        *ngFor="let c of categories | category:searchCategory">
                         {{c.name}}
                     </li>
                 </ul>
@@ -42,47 +38,40 @@
     <div class="col-lg-9 col-md-8 col-sm-6 col-12">
         <!-- Search -->
         <div class="input-group mb-3">
-            <input [(ngModel)] = "request.search"
-            (keydown.enter)="getAll(request.pageNumber)"
-            (search)="getAll(1)"
-            type="search" class="form-control" placeholder="{{'search' | translate}}">
+            <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
+                class="form-control" placeholder="{{'search' | translate}}">
             <span class="input-group-text" id="basic-addon1">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </span>
         </div>
         <!-- Products -->
         <div class="row">
-            <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let b of response?.data">
+            <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let b of books">
                 <div class="card text-center">
                     <div class="card-header">
                         <img [src]="b.coverImageUrl" class="card-img-top mt-2" alt="image">
-                        <p>{{b.author}}</p>
                     </div>
                     <div class="card-body">
+                        <p>{{b.author}}</p>
                         <h5 class="card-title">{{b.title}}</h5>
                         <p class="card-text">{{b.summary}}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <!-- <h5><b>{{b.price.value | currency: '':''}} {{b.price.currency}}</b></h5>        
+                        <button class="btn btn-info">Sepete Ekle</button> -->
+                        <button iconControl class="btn btn-outline-secondary d-flex justify-content-between w-100 align-items-center" (click)="addShoppingCart(b)">
+                            <span>{{b.price.value | currency:'':'':'1.2-2'}} {{b.price.currency}}</span>
+                            <i class="fa-solid fa-cart-shopping"></i>
+                          </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Pagination -->
-        <nav aria-label="Page navigation example" style="float: right;">
-            <ul class="pagination">
-                <li class="page-item" *ngIf="!response?.isFirstPage">
-                    <a class="page-link" (click)="getAll(response?.pageNumber - 1)" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item" [ngClass]="response?.pageNumber === p ? 'active' : '' " *ngFor="let p of pageNumbers">
-                    <a class="page-link" (click)="getAll(p)">{{p}}</a>
-                </li>
-                <li class="page-item" *ngIf="!response?.isLastPage">
-                    <a class="page-link" (click)="getAll(response?.pageNumber + 1)" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+
+
+        <!-- infiniteScroll -->
+        <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+            (scrolled)="feedData()">
+        </div>
+
+        <!-- Pagination (Silindi)-->
     </div>
 </div>

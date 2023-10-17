@@ -8,21 +8,21 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active mb-2" aria-current="page" routerLink="/">Home</a>
-          </li>
+          </li> -->
         </ul>
         
         <!-- Language -->
-        <select style="width: 20%;" (change)="switchLanguage($event)" class="form-select me-2 mb-2">
+        <select style="width: 20%;" [(ngModel)]="language" (change)="switchLanguage($event)" class="form-select me-2 mb-2">
             <option value="en">English</option>
             <option value="tr">Türkçe</option>
         </select>
         <!-- Shopping Cart -->
-        <button class="btn btn-outline-secondary position-relative mb-2">
-          <i class="fa-solid fa-cart-shopping" [ngClass]="count > 0 ? 'fa-bounce' : ''" style="color: #bfc5cf;"></i>
-          <span *ngIf="count > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{count}}
+        <button routerLink="/shopping-cart" class="btn btn-outline-secondary position-relative mb-2">
+          <i class="fa-solid fa-cart-shopping" [ngClass]="shopping.count > 0 ? 'fa-bounce' : ''" style="color: #bfc5cf;"></i>
+          <span *ngIf="shopping.count > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{shopping.count}}
             <span class="visually-hidden">unread messages</span>
           </span>
         </button>

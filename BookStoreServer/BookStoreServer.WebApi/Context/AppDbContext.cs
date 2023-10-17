@@ -27,71 +27,28 @@ public sealed class AppDbContext : DbContext
             price.Property(p => p.Currency).HasMaxLength(5); // Assuming you want a max length for Currency
         });//Value Object
 
+        //Seed Data: Development sürecind elinde veri olmasını sağlar.
+        //Canlıya aldığında değişmeyecek ve database de kayıt olarak tutman gereken verilerin olmasını sağlar.
 
-        #region Book Price
-
-        //Value Object yapıldığı için gerek kalmadı
-        //modelBuilder.Entity<Book>().Property(p => p.Price).HasColumnType("money");
-
-        #endregion
-
-        #region Seed Data
-        //Note: Value Object kullanılınca Seed Data yapılamıyor.
-
-        //List<Category> categories = new();
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    var category = new Category()
-        //    {
-        //        Id = i + 1,
-        //        Name = "Category" + (i + 1),
-        //        IsActive = true,
-        //        IsDeleted = false,
-        //    };
-        //    categories.Add(category);
-        //}
-
-        //modelBuilder.Entity<Category>().HasData(categories);
-
-        //List<Book> books = new();
-        //for (int i = 0; i < 100; i++)
-        //{
-        //    var book = new Book()
-        //    {
-        //        Id = i + 1,
-        //        Title = $"Book {i + 1}",
-        //        Author = "Author " + (i + 1),
-        //        ISBN = "978-0321125217",
-        //        IsActive = true,
-        //        IsDeleted = false,
-        //        Price = new(i*10, "₺"),
-        //        Quantity = 10,
-        //        Summary = "",
-        //        CoverImageUrl = "https://m.media-amazon.com/images/I/715dYvRM3lL._AC_UF1000,1000_QL80_.jpg",
-        //        CreateAt = DateTime.Now,
-        //    };
-
-        //    books.Add(book);
-        //}
-
-        //modelBuilder.Entity<Book>().HasData(books.ToArray());
-
-        ////Aralarında ilişki kurmak 
-        //List<BookCategory> bookCategories = new();
-        //foreach (var book in books)
-        //{
-        //    var bookCategory = new BookCategory()
-        //    {
-        //        BookId = book.Id,
-        //        CategoryId = categories[new Random().Next(0, 10)].Id
-        //    };
-
-        //    bookCategories.Add(bookCategory);
-        //}
-
-        //modelBuilder.Entity<BookCategory>().HasData(bookCategories);
-
-        #endregion
-
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Id = 1, Name = "Korku", IsActive = true, IsDeleted = false },
+            new Category { Id = 2, Name = "Bilim Kurgu", IsActive = true, IsDeleted = false },
+            new Category { Id = 3, Name = "Tarih", IsActive = true, IsDeleted = false },
+            new Category { Id = 4, Name = "Edebiyat", IsActive = true, IsDeleted = false },
+            new Category { Id = 5, Name = "Çocuk", IsActive = true, IsDeleted = false },
+            new Category { Id = 6, Name = "Psikoloji", IsActive = true, IsDeleted = false },
+            new Category { Id = 7, Name = "Din", IsActive = true, IsDeleted = false },
+            new Category { Id = 8, Name = "Felsefe", IsActive = true, IsDeleted = false },
+            new Category { Id = 9, Name = "Bilim", IsActive = true, IsDeleted = false },
+            new Category { Id = 10, Name = "Sanat", IsActive = true, IsDeleted = false },
+            new Category { Id = 11, Name = "Spor", IsActive = true, IsDeleted = false },
+            new Category { Id = 12, Name = "Gezi", IsActive = true, IsDeleted = false },
+            new Category { Id = 13, Name = "Dergi", IsActive = true, IsDeleted = false },
+            new Category { Id = 14, Name = "Mizah", IsActive = true, IsDeleted = false },
+            new Category { Id = 15, Name = "Kişisel Gelişim", IsActive = true, IsDeleted = false },
+            new Category { Id = 16, Name = "Yemek", IsActive = true, IsDeleted = false },
+            new Category { Id = 17, Name = "Hobi", IsActive = true, IsDeleted = false },
+            new Category { Id = 18, Name = "Referans", IsActive = true, IsDeleted = false },
+            new Category { Id = 19, Name = "Eğitim", IsActive = true, IsDeleted = false });
     }
 }
