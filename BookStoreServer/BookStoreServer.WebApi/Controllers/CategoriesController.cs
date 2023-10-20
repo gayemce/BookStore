@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace BookStoreServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public sealed class CategoriesController : ControllerBase
 {
     //Kategori Ekleme
     [HttpPost]

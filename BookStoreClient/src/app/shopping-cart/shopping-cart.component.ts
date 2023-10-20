@@ -18,5 +18,7 @@ export class ShoppingCartComponent {
     if(localStorage.getItem("language")){
       this.language = localStorage.getItem("language") as string;
     }    
+
+    this.shopping.calcTotal();
   }
 }

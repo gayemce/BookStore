@@ -5,5 +5,11 @@
   "home": "Ana Sayfa",
   "shoppingCartPage": "Sepetim",
   "allCategories": "Tüm Kategoriler",
-  "addBookInShoppingCartIsSuccessful": "Sepete ürün başarıyla eklendi."
+  "addBookInShoppingCartIsSuccessful": "Sepete ürün başarıyla eklendi.",
+  "noBooksInShoopingCart": "Sepette ürün bulunmuyor!",
+  "remove": {
+    "doYouWantToDeleted": "Silmek istiyor musunuz?",
+    "cancelBtn": "Vazgeç",
+    "confirmBtn": "Sil"
+  }
 }

@@ -11,9 +11,13 @@
     </div>
 </div>
 
-<div class="row mt-4">
+<h1 *ngIf="shopping.count === 0" class=" alert alert-danger text-center">
+    {{'noBooksInShoopingCart' | translate}}
+</h1>
+
+<div class="row mt-4" *ngIf="shopping.count > 0">
     <div class="col-lg-9 col-12">
-        <div class="card mt-1 position-relative" *ngFor="let s of shopping.shoppingCarts">
+        <div class="card mt-1 position-relative" *ngFor="let s of shopping.shoppingCarts, let i = index">
             <div class="row">
                 <div class="col-2 text-center card-image-div">
                     <img class="card-image" [src]="s.coverImageUrl" alt="">
@@ -38,23 +42,25 @@
                     </h5>
                 </div>
             </div>
-            <i class="fa fa-trash trash"></i>
+            <i class="fa fa-trash trash" (click)="shopping.removeByIndex(i)"></i>
         </div>
     </div>
 
     <div class="col-lg-3 col-12">
-        <div class="card">
+        <div class="card" *ngFor="let p of shopping.prices">
             <div class="form-group">
                 <h1 class="alert alert-danger text-center">
-                    25.000,00 ₺
+                    <span *ngIf="language == 'tr'">{{p.value | trCurrency}} {{p.currency}}</span>
+                    <span *ngIf="language != 'tr'">{{p.value| currency: '': '': '1.2-2'}} {{p.currency}}</span>
                 </h1>
             </div>
 
             <div class="form-group">
-                <button class="btn btn-danger w-100">
+                <button (click)="shopping.payment(p.currency)" class="btn btn-danger w-100">
                     Ödeme Yap
                 </button>
             </div>
         </div>
     </div>
 </div>
+

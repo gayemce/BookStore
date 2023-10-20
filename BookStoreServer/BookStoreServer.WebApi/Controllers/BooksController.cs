@@ -9,7 +9,7 @@ namespace BookStoreServer.WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class BooksController : ControllerBase
+public sealed class BooksController : ControllerBase
 {
     //Kitapları Listele
     [HttpPost]

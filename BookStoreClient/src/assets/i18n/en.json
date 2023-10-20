@@ -5,6 +5,11 @@
     "home": "Home",
     "shoppingCartPage": "My Shopping Cart",
     "allCategories": "All Categories",
-    "addBookInShoppingCartIsSuccessful": "Adding books to the shopping cart was successful."
-    
+    "addBookInShoppingCartIsSuccessful": "Adding books to the shopping cart was successful.",
+    "noBooksInShoopingCart": "No book in shopping cart!",
+    "remove": {
+      "doYouWantToDeleted": "Do you want to deleted?",
+      "cancelBtn": "Cancel",
+      "confirmBtn": "Delete"
+    }
   }
