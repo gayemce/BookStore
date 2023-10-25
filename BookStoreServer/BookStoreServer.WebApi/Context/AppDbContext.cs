@@ -28,6 +28,12 @@ public sealed class AppDbContext : DbContext
             price.Property(p => p.Currency).HasMaxLength(5); // Assuming you want a max length for Currency
         });//Value Object
 
+        modelBuilder.Entity<Order>().OwnsOne(p => p.Price, price =>
+        {
+            price.Property(p => p.Value).HasColumnType("money");
+            price.Property(p => p.Currency).HasMaxLength(5); // Assuming you want a max length for Currency
+        });//Value Object
+
         //Seed Data: Development sürecind elinde veri olmasını sağlar.
         //Canlıya aldığında değişmeyecek ve database de kayıt olarak tutman gereken verilerin olmasını sağlar.
 

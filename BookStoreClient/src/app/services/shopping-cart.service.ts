@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { SwalService } from './swal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PaymentModel } from '../models/payment.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Injectable({
@@ -18,19 +20,24 @@ export class ShoppingCartService {
   constructor(
     private swal: SwalService,
     private translate: TranslateService,
-    private http: HttpClient
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
   ) {
-    //sayfa yenilense dahi localStorage kitap varsa göster
+    this.checkLocalStorageForShoppingCarts();
+  }
+
+  checkLocalStorageForShoppingCarts() {
     if (localStorage.getItem("shoppingCarts")) {
       const carts: string | null = localStorage.getItem("shoppingCarts")
       if (carts !== null) {
         this.shoppingCarts = JSON.parse(carts);
-        this.count = this.shoppingCarts.length;
       }
     }
+    this.calcTotal();
   }
 
   calcTotal() {
+    this.count = this.shoppingCarts.length;
     this.total = 0;
 
     const sumMap = new Map<string, number>();
@@ -68,11 +75,18 @@ export class ShoppingCartService {
     });
   }
 
-  payment(currency: string){
-    const newList = this.shoppingCarts.filter(p => p.price.currency === currency)
-    this.http.post(`https://localhost:7289/api/ShoppingCarts/Payment`, {books: newList})
-    .subscribe(res => {
-      //burası sonra doldurulacak
-    })
+  payment(data: PaymentModel, callBack: (res: any) => void) {
+    this.spinner.show();
+    this.http.post("https://localhost:7289/api/ShoppingCarts/Payment", data)
+      .subscribe({
+        next: (res: any) => {
+          callBack(res);
+          this.spinner.hide();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.spinner.hide();
+        }
+      })
   }
 }

@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutsComponent } from './layouts/layouts.component';
-import { HomeComponent } from './home/home.component';
-import { NavbarComponent } from './layouts/navbar/navbar.component';
+import { LayoutsComponent } from './components/layouts/layouts.component';
+import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/layouts/navbar/navbar.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -14,8 +14,10 @@ import { CategoryPipe } from './pipes/category.pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { IconControlDirective } from './directives/icon-control.directive';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { TrCurrencyPipe } from 'tr-currency';
+import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,14 +31,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavbarComponent,
     CategoryPipe,
     IconControlDirective,
-    ShoppingCartComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     TrCurrencyPipe,
     SweetAlert2Module,
     InfiniteScrollModule,
+    NgxSpinnerModule,
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot({

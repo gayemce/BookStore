@@ -5,11 +5,50 @@
   "home": "Ana Sayfa",
   "shoppingCartPage": "Sepetim",
   "allCategories": "Tüm Kategoriler",
+  "paymentIsSuccesful": "Ödeme işlemi başarıyla tamamlandı!",
   "addBookInShoppingCartIsSuccessful": "Sepete ürün başarıyla eklendi.",
   "noBooksInShoopingCart": "Sepette ürün bulunmuyor!",
   "remove": {
     "doYouWantToDeleted": "Silmek istiyor musunuz?",
     "cancelBtn": "Vazgeç",
     "confirmBtn": "Sil"
+  },
+  "payment": {
+    "title": "Ödeme Sayfası",
+    "pay": "Ödeme Yap",
+    "completeBtn": "Ödeme Yap",
+    "buyer": {
+      "title": "Alıcı Bilgileri",
+      "name": "Alıcı Adı",
+      "surname": "Alıcı Soyadı",
+      "identityNumber": "Kimlik Numarası",
+      "email": "Mail Adresi",
+      "gsmNumber": "Telefon Numarası"
+    },
+    "address": "Adres Bilgileri",
+    "isSameAddres": "Teslim ve Fatura Adresi Aynı",
+    "shippingAddress": {
+      "title": "Teslim Adresi",
+      "country": "Ülke",
+      "city": "Şehir",
+      "zipCode": "Posta Kodu",
+      "contactName": "Alıcı Adı",
+      "description": "Açık Adres"
+    },
+    "billingAddress": {
+      "title": "Fatura Adresi",
+      "country": "Ülke",
+      "city": "Şehir",
+      "zipCode": "Posta Kodu",
+      "contactName": "Alıcı Adı",
+      "description": "Açık Adres"
+    },
+    "creditCart": {
+      "title": "Kredi Kartı Bilgileri",
+      "cardHolderName": "Kart Sahibinin Adı",
+      "cardNumber": "Kart Numarası",
+      "expireMonthAndYear": "Son Kullanma Tarihi",
+      "cvc": "CVC"
+    }
   }
 }

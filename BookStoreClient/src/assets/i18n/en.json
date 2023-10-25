@@ -11,5 +11,16 @@
       "doYouWantToDeleted": "Do you want to deleted?",
       "cancelBtn": "Cancel",
       "confirmBtn": "Delete"
+    },
+    "payment": {
+      "title": "Ödeme Sayfası",
+      "buyer": {
+        "title": "Alıcı Bilgileri",
+        "name": "Alıcı Adı",
+        "surname": "Alıcı Soyadı",
+        "identityNumber": "Kimlik Numarası",
+        "email": "Mail Adresi",
+        "gsmNumber": "Telefon Numarası"
+      }
     }
   }
