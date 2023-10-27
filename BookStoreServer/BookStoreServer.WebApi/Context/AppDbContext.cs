@@ -14,25 +14,28 @@ public sealed class AppDbContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<BookCategory> BookCategories { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderStatus> OrderStatues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //Composite Key
+        //Composite Key - Çoka çok ilişki için
         modelBuilder.Entity<BookCategory>().HasKey(p => new { p.BookId, p.CategoryId });
 
         //Domain Driven Design - Value Object
-
         modelBuilder.Entity<Book>().OwnsOne(p => p.Price, price =>
         {
             price.Property(p => p.Value).HasColumnType("money");
             price.Property(p => p.Currency).HasMaxLength(5); // Assuming you want a max length for Currency
-        });//Value Object
+        });
 
         modelBuilder.Entity<Order>().OwnsOne(p => p.Price, price =>
         {
             price.Property(p => p.Value).HasColumnType("money");
-            price.Property(p => p.Currency).HasMaxLength(5); // Assuming you want a max length for Currency
-        });//Value Object
+            price.Property(p => p.Currency).HasMaxLength(5);
+        });
+
+        //OrderStatus tablosunda dublicate önlendi
+        modelBuilder.Entity<OrderStatus>().HasIndex(p => new { p.Status, p.OrderNumber }).IsUnique();
 
         //Seed Data: Development sürecind elinde veri olmasını sağlar.
         //Canlıya aldığında değişmeyecek ve database de kayıt olarak tutman gereken verilerin olmasını sağlar.
