@@ -15,6 +15,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<BookCategory> BookCategories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderStatus> OrderStatues { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +37,9 @@ public sealed class AppDbContext : DbContext
 
         //OrderStatus tablosunda dublicate önlendi
         modelBuilder.Entity<OrderStatus>().HasIndex(p => new { p.Status, p.OrderNumber }).IsUnique();
+
+        //OrderStatus tablosunda dublicate önlendi
+        modelBuilder.Entity<User>().HasIndex(p => new { p.Email, p.Username }).IsUnique();
 
         //Seed Data: Development sürecind elinde veri olmasını sağlar.
         //Canlıya aldığında değişmeyecek ve database de kayıt olarak tutman gereken verilerin olmasını sağlar.

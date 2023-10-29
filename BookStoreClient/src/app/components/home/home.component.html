@@ -109,6 +109,7 @@
                     </div>
                     <div class="card-body">
                         <p>{{b.author}}</p>
+                        <p *ngFor="let category of b.categories">{{category}}</p>
                         <h5 class="card-title">{{b.title}}</h5>
                         <p class="card-text">{{b.summary}}</p>
                         <!-- <h5><b>{{b.price.value | currency: '':''}} {{b.price.currency}}</b></h5>        
