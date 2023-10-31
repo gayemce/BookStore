@@ -16,6 +16,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderStatus> OrderStatues { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,12 @@ public sealed class AppDbContext : DbContext
         });
 
         modelBuilder.Entity<Order>().OwnsOne(p => p.Price, price =>
+        {
+            price.Property(p => p.Value).HasColumnType("money");
+            price.Property(p => p.Currency).HasMaxLength(5);
+        });
+
+        modelBuilder.Entity<ShoppingCart>().OwnsOne(p => p.Price, price =>
         {
             price.Property(p => p.Value).HasColumnType("money");
             price.Property(p => p.Currency).HasMaxLength(5);

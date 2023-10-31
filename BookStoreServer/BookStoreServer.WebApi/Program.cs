@@ -59,6 +59,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//Hata kontrolü
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next(context);
+    }
+    catch (Exception ex)
+    {
+        throw;
+    }
+});
+
+
 app.UseCors();
 
 app.UseHttpsRedirection();

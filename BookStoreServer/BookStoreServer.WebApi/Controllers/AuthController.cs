@@ -55,11 +55,11 @@ public sealed class AuthController : ControllerBase
 
         if(user.Password != request.Password)
         {
-            return BadRequest(new { Message = "Şifre yanlış" });
+            return BadRequest(new { Message = "Şifre yanlış!" });
         }
 
         string token = JwtService.CreatToken(user);
 
-        return Ok(new {Token = token});
+        return Ok(new LoginResponseDto(Token: token, UserId: user.Id, UserName: user.GetName()));
     }
 }

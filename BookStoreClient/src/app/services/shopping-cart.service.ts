@@ -5,6 +5,9 @@ import { forkJoin } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PaymentModel } from '../models/payment.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from './auth.service';
+import { SetShoppingCartsModel } from '../models/shopping-carts.model';
+import { ErrorService } from './error.service';
 
 
 @Injectable({
@@ -21,18 +24,37 @@ export class ShoppingCartService {
     private swal: SwalService,
     private translate: TranslateService,
     private http: HttpClient,
-    private spinner: NgxSpinnerService
+    private auth: AuthService,
+    private spinner: NgxSpinnerService,
+    private error: ErrorService,
   ) {
     this.checkLocalStorageForShoppingCarts();
   }
 
   checkLocalStorageForShoppingCarts() {
-    if (localStorage.getItem("shoppingCarts")) {
+    const shoppingCartsString = localStorage.getItem("shoppingCarts");
+    if (shoppingCartsString) {
       const carts: string | null = localStorage.getItem("shoppingCarts")
       if (carts !== null) {
         this.shoppingCarts = JSON.parse(carts);
       }
     }
+    else {
+      this.shoppingCarts = [];
+    }
+
+    if (localStorage.getItem("response")) {
+      this.http.get<SetShoppingCartsModel[]>("https://localhost:7289/api/ShoppingCarts/GetAll/" + this.auth.userId).subscribe({
+        next: (res: any) => {
+          this.shoppingCarts = res //res'in tipi, SetShoppingCartsModel[]
+            this.calcTotal();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.errorHandler(err);
+        }
+      });
+    }
+
     this.calcTotal();
   }
 
@@ -67,10 +89,19 @@ export class ShoppingCartService {
       confirmBtn: this.translate.get('remove.confirmBtn')
     }).subscribe((res) => {
       this.swal.callSwal(res.doYouWantToDeleted, res.cancelBtn, res.confirmBtn, () => {
-        this.shoppingCarts.splice(index, 1);
-        localStorage.setItem("shoppingCarts", JSON.stringify(this.shoppingCarts)); //güncel halini set et.
-        this.count = this.shoppingCarts.length;
-        this.calcTotal();
+        if(localStorage.getItem("response")){
+          this.http.get("https://localhost:7289/api/ShoppingCarts/RemoveById/" + this.shoppingCarts[index]?.shoppingCartId).subscribe(res=> {
+
+            this.checkLocalStorageForShoppingCarts();
+          });
+        }
+        else 
+        {
+          this.shoppingCarts.splice(index, 1);
+          localStorage.setItem("shoppingCarts", JSON.stringify(this.shoppingCarts)); //güncel halini set et.
+          this.count = this.shoppingCarts.length;
+          this.calcTotal();
+        }
       });
     });
   }
@@ -84,7 +115,7 @@ export class ShoppingCartService {
           this.spinner.hide();
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
+          this.error.errorHandler(err);
           this.spinner.hide();
         }
       })

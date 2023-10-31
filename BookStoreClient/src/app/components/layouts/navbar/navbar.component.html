@@ -6,27 +6,43 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="collapse navbar-collapse mb-2" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-lg-0">
           <!-- <li class="nav-item">
             <a class="nav-link active mb-2" aria-current="page" routerLink="/">Home</a>
           </li> -->
         </ul>
         
         <!-- Language -->
-        <select style="width: 20%;" [(ngModel)]="language" (change)="switchLanguage($event)" class="form-select me-2 mb-2">
+        <select style="width: 20%;" [(ngModel)]="language" (change)="switchLanguage($event)" class="form-select me-2">
             <option value="en">English</option>
             <option value="tr">Türkçe</option>
         </select>
         <!-- Shopping Cart -->
-        <button routerLink="/shopping-cart" class="btn btn-outline-secondary position-relative mb-2">
-          <i class="fa-solid fa-cart-shopping" [ngClass]="shopping.count > 0 ? 'fa-bounce' : ''" style="color: #bfc5cf;"></i>
-          <span *ngIf="shopping.count > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{shopping.count}}
+        <button routerLink="/shopping-cart" class="btn btn-outline-secondary position-relative">
+          <i class="fa-solid fa-cart-shopping" [ngClass]="shopping.shoppingCarts.length > 0 ? 'fa-bounce' : ''" style="color: #bfc5cf;"></i>
+          <span *ngIf="shopping.shoppingCarts.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{shopping.shoppingCarts.length}}
             <span class="visually-hidden">unread messages</span>
           </span>
         </button>
 
+        <!-- User Login Buton -->
+        <button *ngIf="!auth.isAuthentication()" class="btn btn-outline-light ms-2" routerLink="/login">
+          <i class="fa-solid fa-user-lock"></i>
+        </button>
+
+        <div class="dropdown ms-2" *ngIf="auth.isAuthentication()">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" width="30">
+            {{auth.userName}}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Profilim</a></li>
+             <!-- User Logout Buton -->
+            <li><a class="dropdown-item" (click)="logout()">Çıkış Yap</a></li>
+          </ul>
+        </div>        
       </div>
     </div>
   </nav>

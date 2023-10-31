@@ -18,6 +18,8 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { TrCurrencyPipe } from 'tr-currency';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,7 +33,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavbarComponent,
     CategoryPipe,
     IconControlDirective,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

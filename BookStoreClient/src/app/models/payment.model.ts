@@ -1,6 +1,7 @@
 import { BookModel } from "./book.model";
 
 export class PaymentModel {
+    userId: number = 0;
     books: BookModel[] = []
     buyer: BuyerModel = new BuyerModel();
     shippingAddress: AddressModel = new AddressModel();
@@ -13,7 +14,7 @@ export class BuyerModel {
     name: string = "Gaye";
     surname: string = "Tekin";
     identityNumber: string = "12345678901";
-    email: string = "gayemce@gmail.com";
+    email: string = "gayemce4@gmail.com";
     gsmNumber: string = "5416022536";
     registrationDate: string = "";
     lastLoginDate: string = "";

@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PaymentModel } from 'src/app/models/payment.model';
 import { Cities, Countries } from 'src/app/constants/address';
 import { SwalService } from 'src/app/services/swal.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -29,12 +30,13 @@ export class ShoppingCartComponent {
   constructor(
     public shopping: ShoppingCartService,
     private translate: TranslateService,
-    private swal: SwalService
+    private swal: SwalService,
+    private auth: AuthService
   ){ 
     if(localStorage.getItem("language")){
       this.language = localStorage.getItem("language") as string;
     }    
-    this.shopping.checkLocalStorageForShoppingCarts();
+
     this.request.books = this.shopping.shoppingCarts; //?
   }
 
@@ -55,6 +57,9 @@ export class ShoppingCartComponent {
     this.request.buyer.registrationAddress = this.request.shippingAddress.description;
     this.request.buyer.city = this.request.shippingAddress.city;
     this.request.buyer.country = this.request.shippingAddress.country;
+
+    this.request.userId = this.auth.userId //hangi kullanıcıya ait sepetin boşaltılacağına erişmek için 
+    
     this.shopping.payment(this.request, (res) => {
       const btn = document.getElementById("paymentModalCloseBtn");
       btn?.click();
