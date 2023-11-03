@@ -9,6 +9,7 @@ import { AddShoppingCartModel } from 'src/app/models/add-shopping-cart.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

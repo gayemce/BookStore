@@ -35,6 +35,7 @@ export class LoginComponent {
           localStorage.setItem("response", JSON.stringify(res));
           this.auth.isAuthentication();
           
+          debugger
           const request: SetShoppingCartsModel[] = [];
 
           //sepette ürün varsa 

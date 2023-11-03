@@ -66,9 +66,9 @@
     <!-- Left Categories -->
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
         <div class="card">
-            <div class="card-header">
-                <h5>{{'categories' | translate}} </h5>
-            </div>
+            <div class="card-header" id="categories">
+                <h3>{{ "categories" | translate }}</h3>
+              </div>
             <div class="card-body">
                 <!-- Search -->
                 <div class="input-group mb-3">
@@ -93,7 +93,7 @@
     <!-- Search & Products -->
     <div class="col-lg-9 col-md-8 col-sm-6 col-12">
         <!-- Search -->
-        <div class="input-group mb-3">
+        <div class="input-group mb-3" id="bookSearch">
             <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
                 class="form-control" placeholder="{{'search' | translate}}">
             <span class="input-group-text" id="basic-addon1">
@@ -102,7 +102,7 @@
         </div>
         <!-- Products -->
         <div class="row">
-            <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let b of books">
+            <div class="col-xl-4 col-md-6 col-12 mb-2" id="book{{i}}" *ngFor="let b of books let i = index">
                 <div class="card text-center">
                     <div class="card-header">
                         <img [src]="b.coverImageUrl" class="card-img-top mt-2" alt="image">
@@ -114,7 +114,7 @@
                         <p class="card-text">{{b.summary}}</p>
                         <!-- <h5><b>{{b.price.value | currency: '':''}} {{b.price.currency}}</b></h5>        
                         <button class="btn btn-info">Sepete Ekle</button> -->
-                        <button iconControl
+                        <button iconControl id="addShoppingCartBtn{{i}}"
                             class="btn btn-outline-secondary d-flex justify-content-between w-100 align-items-center"
                             (click)="addShoppingCart(b)">
                             <span>{{b.price.value | currency:'':'':'1.2-2'}} {{b.price.currency}}</span>
