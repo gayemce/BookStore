@@ -20,7 +20,7 @@ public sealed class ConfigurationsController : ControllerBase
             {
                 Title = $"Book {i}",
                 Author = $"Author {i}",
-                Summary = $"Summary {i}",
+                Summary = $"Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
                 CoverImageUrl = $"https://m.media-amazon.com/images/I/71W4dU3uOZL._AC_UF1000,1000_QL80_.jpg",
                 Price = new(i * 2, "₺"),
                 Quantity = i * 1,

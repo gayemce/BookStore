@@ -15,6 +15,7 @@ public sealed class Order
     public int BookId { get; set; }
     public Book Book { get; set; }
 
+    public int Quantity { get; set; }
     public Money Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime PaymentDate { get; set; }

@@ -35,7 +35,6 @@ export class LoginComponent {
           localStorage.setItem("response", JSON.stringify(res));
           this.auth.isAuthentication();
           
-          debugger
           const request: SetShoppingCartsModel[] = [];
 
           //sepette ürün varsa 
@@ -52,7 +51,7 @@ export class LoginComponent {
   
             this.http.post("https://localhost:7289/api/ShoppingCarts/SetShoppingCartsFromLocalStorage", request).subscribe(res => {
               localStorage.removeItem("shoppingCarts");
-              this.shoppingCart.checkLocalStorageForShoppingCarts();
+              this.shoppingCart.getAllShoppingCarts();
             })
           }
           

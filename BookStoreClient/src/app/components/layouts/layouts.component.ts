@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { driver } from "driver.js";
+import { PopupService } from 'src/app/services/popup.service';
 
 @Component({
   selector: 'app-layouts',
@@ -7,26 +8,10 @@ import { driver } from "driver.js";
   styleUrls: ['./layouts.component.css']
 })
 export class LayoutsComponent {
-  isPopupShow: boolean = false;
-  processBar: number = 0;
-  interval: any;
 
-  constructor() {
-    setTimeout(() => {
-      this.changePopupShow();
-      this.interval = setInterval(() => {
-        console.log(this.processBar );
-        
-        this.processBar += 2;
-      }, 100)
-    }, 2000);
-
-    setTimeout(() => {
-      clearInterval(this.interval);
-      if (this.isPopupShow) {
-        this.changePopupShow();
-      }
-    }, 8000);
+  constructor(
+    public popup: PopupService
+  ) {
   }
 
   showDriver() {
@@ -74,10 +59,9 @@ export class LayoutsComponent {
 
     driverObj.drive();
 
-    this.changePopupShow();
+    this.popup.changePopupShow();
+
   }
 
-  changePopupShow() {
-    this.isPopupShow = !this.isPopupShow;
-  }
+  
 }

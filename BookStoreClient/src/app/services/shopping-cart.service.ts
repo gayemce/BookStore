@@ -28,15 +28,46 @@ export class ShoppingCartService {
     private spinner: NgxSpinnerService,
     private error: ErrorService,
   ) {
-    this.checkLocalStorageForShoppingCarts();
+    this.getAllShoppingCarts();
   }
 
-  checkLocalStorageForShoppingCarts() {
+  changeBookQuantityInShoppingCart(bookId: number, quantity: number) {
+    if (localStorage.getItem("response")) {
+      this.http.get(`https://localhost:7289/api/ShoppingCarts/ChangeBookQuantityInShoppingCart/${bookId}/${quantity}`)
+        .subscribe({
+          next: (res: any) => {
+            this.getAllShoppingCarts();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.error.errorHandler(err);
+          }
+        })
+    } else {
+      if (quantity <= 0) {
+        const index = this.shoppingCarts.findIndex(p => p.id == bookId);
+        this.removeByIndex(index);
+      }
+      else {
+        this.http.get(`https://localhost:7289/api/ShoppingCarts/CheckBookQuantityIsAvailable/${bookId}/${quantity}`)
+          .subscribe({
+            next: (res: any) => {
+              this.shoppingCarts.filter(p => p.id === bookId)[0].quantity = quantity;
+            },
+            error: (err: HttpErrorResponse) => {
+              this.error.errorHandler(err);
+            }
+          })
+      }
+    }
+  }
+
+  getAllShoppingCarts() {
     const shoppingCartsString = localStorage.getItem("shoppingCarts");
     if (shoppingCartsString) {
       const carts: string | null = localStorage.getItem("shoppingCarts")
       if (carts !== null) {
         this.shoppingCarts = JSON.parse(carts);
+        this.calcTotal();
       }
     }
     else {
@@ -47,7 +78,7 @@ export class ShoppingCartService {
       this.http.get<SetShoppingCartsModel[]>("https://localhost:7289/api/ShoppingCarts/GetAll/" + this.auth.userId).subscribe({
         next: (res: any) => {
           this.shoppingCarts = res //res'in tipi, SetShoppingCartsModel[]
-            this.calcTotal();
+          this.calcTotal();
         },
         error: (err: HttpErrorResponse) => {
           this.error.errorHandler(err);
@@ -66,7 +97,8 @@ export class ShoppingCartService {
 
     this.prices = [];
     for (let s of this.shoppingCarts) {
-      this.prices.push({ ...s.price }); //params operatörü: Objenin referansını koparır
+      const newPrice = { value: (s.price.value * s.quantity), currency: s.price.currency };
+      this.prices.push({ ...newPrice }); //params operatörü: Objenin referansını koparır
     }
 
     for (const item of this.prices) {
@@ -89,18 +121,18 @@ export class ShoppingCartService {
       confirmBtn: this.translate.get('remove.confirmBtn')
     }).subscribe((res) => {
       this.swal.callSwal(res.doYouWantToDeleted, res.cancelBtn, res.confirmBtn, () => {
-        if(localStorage.getItem("response")){
-          this.http.get("https://localhost:7289/api/ShoppingCarts/RemoveById/" + this.shoppingCarts[index]?.shoppingCartId).subscribe(res=> {
+        if (localStorage.getItem("response")) {
+          this.http.get("https://localhost:7289/api/ShoppingCarts/RemoveById/" + this.shoppingCarts[index]?.shoppingCartId).subscribe(res => {
 
-            this.checkLocalStorageForShoppingCarts();
+            this.getAllShoppingCarts();
           });
         }
-        else 
-        {
+        else {
           this.shoppingCarts.splice(index, 1);
           localStorage.setItem("shoppingCarts", JSON.stringify(this.shoppingCarts)); //güncel halini set et.
           this.count = this.shoppingCarts.length;
           this.calcTotal();
+
         }
       });
     });

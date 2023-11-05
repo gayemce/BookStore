@@ -5,7 +5,7 @@ export class BookModel{
     summary: string = "";
     coverImageUrl: string = "";
     price: Money = new Money();
-    quantity: Number = 0;
+    quantity: number = 0;
     isActive: boolean = true;
     isDeleted: boolean = false;
     isbn: string = "";

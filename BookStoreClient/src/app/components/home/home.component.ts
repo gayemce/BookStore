@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AddShoppingCartModel } from 'src/app/models/add-shopping-cart.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { PopupService } from 'src/app/services/popup.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class HomeComponent {
     private swal: SwalService,
     private translate: TranslateService,
     private error: ErrorService,
-    private auth: AuthService
+    private auth: AuthService,
+    private popup: PopupService
   ) {
     //login girişi yapıldığında kullanıcının kaldığı kategoriden devam eder.
     if (localStorage.getItem("request")) {
@@ -52,7 +54,7 @@ export class HomeComponent {
 
       this.http.post("https://localhost:7289/api/ShoppingCarts/Add", data).subscribe({
         next: (res: any) => {
-          this.shopping.checkLocalStorageForShoppingCarts();
+          this.shopping.getAllShoppingCarts();
           this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
             this.swal.callToast(res);
           });
@@ -63,11 +65,31 @@ export class HomeComponent {
       });
     }
     else {
-      this.shopping.shoppingCarts.push(book);
-      localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
-      this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
-        this.swal.callToast(res);
-      });
+      if (book.quantity < 1) {
+        this.translate.get("bookQuantityIsNotEnough").subscribe(res => {
+          this.swal.callToast(res, "error");
+        })
+      }
+      else {
+        const checkBookIsAlreadyExists = this.shopping.shoppingCarts.filter(p => p.id == book.id)[0];
+
+        //Aynı kitap sepette mevcutsa
+        if (checkBookIsAlreadyExists !== undefined) {
+          this.shopping.shoppingCarts.filter(p => p.id == book.id)[0].quantity += 1
+        }
+        //daha önceden hiç eklenmediyse 1 adet eklenir
+        else {
+          const newBook = { ...book };
+          newBook.quantity = 1
+          this.shopping.shoppingCarts.push(newBook);
+        }
+
+        this.shopping.calcTotal();
+        localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
+        this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
+          this.swal.callToast(res);
+        });
+      }
     }
   }
 
@@ -94,6 +116,7 @@ export class HomeComponent {
           this.isLoading = false;
           //login girişi yapıldığında kullanıcının kaldığı kategoriden devam eder.
           localStorage.setItem("request", JSON.stringify(this.request));
+          this.popup.showDriverPopup();
         },
         error: (err: HttpErrorResponse) => {
           this.error.errorHandler(err);

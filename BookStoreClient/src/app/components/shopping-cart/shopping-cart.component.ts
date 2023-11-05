@@ -65,12 +65,14 @@ export class ShoppingCartComponent {
       btn?.click();
       const remainShoopingCarts = this.shopping.shoppingCarts.filter(p => p.price.currency !== this.selectedCurrencyForPayment);
       localStorage.setItem("shoppingCarts", JSON.stringify(remainShoopingCarts));
-      this.shopping.checkLocalStorageForShoppingCarts();
+      this.shopping.getAllShoppingCarts();
       this.translate.get("paymentIsSuccesful").subscribe(resTranslate => {
       this.swal.callToast(resTranslate,"success");
       })
     })
   }
+
+  
 
   changeIsSameAddress(){
     if(this.isSameAddress){

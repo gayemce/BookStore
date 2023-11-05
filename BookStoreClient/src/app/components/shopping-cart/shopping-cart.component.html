@@ -22,7 +22,7 @@
                 <div class="col-2 text-center card-image-div">
                     <img class="card-image" [src]="s.coverImageUrl" alt="">
                 </div>
-                <div class="col-lg-7 col-10">
+                <div class="col-lg-4 col-10">
                     <div class="form-group">
                         Ürün Adı: {{s.title}}
                     </div>
@@ -31,6 +31,15 @@
                     </div>
                     <div class="form-group">
                         Özet: {{s.summary}}
+                    </div>
+                </div>
+                <div class="col-lg-3 col-12">
+                    <div>
+                        <button class="alert alert-danger"
+                            (click)="shopping.changeBookQuantityInShoppingCart(s.id, s.quantity-1)">-</button>
+                        <p class="alert alert-warning" [innerHTML]="s.quantity"></p>
+                        <button class="alert alert-success"
+                            (click)="shopping.changeBookQuantityInShoppingCart(s.id, s.quantity+1)">+</button>
                     </div>
                 </div>
                 <div class="col-lg-3 col-12 text-center d-flex justify-content-center" style="flex-direction: column;">
@@ -56,7 +65,8 @@
             </div>
 
             <div class="form-group">
-                <button (click)="setSelectedPaymentCurrency(p.currency)" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-danger w-100">
+                <button (click)="setSelectedPaymentCurrency(p.currency)" data-bs-toggle="modal"
+                    data-bs-target="#paymentModal" class="btn btn-danger w-100">
                     {{'payment.pay' | translate}}
                 </button>
             </div>
@@ -73,7 +83,8 @@
                 <h1 class="modal-title fs-5" id="paymentModalLabel">
                     {{'payment.title' | translate}}
                 </h1>
-                <button type="button" class="btn-close" id="paymentModalCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="paymentModalCloseBtn" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
@@ -96,6 +107,7 @@
                         </a>
                     </li>
                 </ul>
+
 
                 <!-- Buyer -->
                 <div *ngIf="selectedTab === 1" class="mt-4">
@@ -295,7 +307,8 @@
                             <label for="cardHolderName">
                                 {{'payment.creditCart.cardHolderName' | translate}}
                             </label>
-                            <input type="text" class="form-control" name="cardHolderName" [(ngModel)]="request.paymentCard.cardHolderName">
+                            <input type="text" class="form-control" name="cardHolderName"
+                                [(ngModel)]="request.paymentCard.cardHolderName">
                         </div>
 
                         <div class="form-group mt-3">
@@ -305,16 +318,24 @@
                             </label>
                             <div class="row">
                                 <div class="col-lg-2 col-3">
-                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('1', cartNumber1)" type="text" class="form-control" name="cartNumber1" id="cartNumber1" [(ngModel)]="cartNumber1">
+                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('1', cartNumber1)" type="text"
+                                        class="form-control" name="cartNumber1" id="cartNumber1"
+                                        [(ngModel)]="cartNumber1">
                                 </div>
                                 <div class="col-lg-2 col-3">
-                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('2', cartNumber2)" type="text" class="form-control" name="cartNumber2" id="cartNumber2" [(ngModel)]="cartNumber2">
+                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('2', cartNumber2)" type="text"
+                                        class="form-control" name="cartNumber2" id="cartNumber2"
+                                        [(ngModel)]="cartNumber2">
                                 </div>
                                 <div class="col-lg-2 col-3">
-                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('3', cartNumber3)" type="text" class="form-control" name="cartNumber3" id="cartNumber3" [(ngModel)]="cartNumber3">
+                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('3', cartNumber3)" type="text"
+                                        class="form-control" name="cartNumber3" id="cartNumber3"
+                                        [(ngModel)]="cartNumber3">
                                 </div>
                                 <div class="col-lg-2 col-3">
-                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('4', cartNumber4)" type="text" class="form-control" name="cartNumber4" id="cartNumber4" [(ngModel)]="cartNumber4">
+                                    <input maxlength="4" (keyup)="gotoNextInputIf4Lenght('4', cartNumber4)" type="text"
+                                        class="form-control" name="cartNumber4" id="cartNumber4"
+                                        [(ngModel)]="cartNumber4">
                                 </div>
                             </div>
                         </div>
@@ -325,7 +346,9 @@
                                     <label for="expireMonthAndYear">
                                         {{'payment.creditCart.expireMonthAndYear' | translate}}
                                     </label>
-                                    <input (keyup)="setExpireMonthAndYear()" type="month" class="form-control" id="expireMonthAndYear" name="expireMonthAndYear" [(ngModel)]="expireMonthAndYear">
+                                    <input (keyup)="setExpireMonthAndYear()" type="month" class="form-control"
+                                        id="expireMonthAndYear" name="expireMonthAndYear"
+                                        [(ngModel)]="expireMonthAndYear">
                                 </div>
                             </div>
 
@@ -335,7 +358,8 @@
                                     <label for="cvc">
                                         {{'payment.creditCart.cvc' | translate}}
                                     </label>
-                                    <input maxlength="3" type="text" class="form-control" id="cvc" name="cvc" [(ngModel)]="request.paymentCard.cvc">
+                                    <input maxlength="3" type="text" class="form-control" id="cvc" name="cvc"
+                                        [(ngModel)]="request.paymentCard.cvc">
                                 </div>
                             </div>
                         </div>

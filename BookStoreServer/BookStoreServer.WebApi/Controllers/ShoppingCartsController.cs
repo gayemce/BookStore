@@ -14,31 +14,111 @@ namespace BookStoreServer.WebApi.Controllers;
 [ApiController]
 public sealed class ShoppingCartsController : ControllerBase
 {
+    private readonly AppDbContext _context;
+
+    [HttpGet("{bookId}/{quantity}")]
+    public IActionResult CheckBookQuantityIsAvailable(int bookId, int quantity)
+    {
+        Book book = _context.Books.Find(bookId);
+        if(book.Quantity < quantity)
+        {
+            throw new Exception("Stokta bu kadar adet kitap yok!");
+        }
+
+        return NoContent();
+    }
+
+    [HttpGet("{bookId}/{quantity}")]
+    public IActionResult ChangeBookQuantityInShoppingCart(int bookId, int quantity)
+    {
+        ShoppingCart cart = _context.ShoppingCarts.Where(p => p.BookId == bookId).FirstOrDefault();
+
+        if(cart is null)
+        {
+            throw new Exception("Kitap sepette bulunamadı");
+        }
+
+        Book book = _context.Books.Find(bookId);
+
+        if (quantity <= 0)
+        {
+            book.Quantity += 1;
+
+            _context.Remove(cart);
+            _context.Update(book);
+        }
+        else
+        {
+            cart.Quantity = quantity;
+
+            if(book.Quantity < cart.Quantity)
+            {
+                throw new Exception("Stokta bu kadar adet kitap yok!");
+            }
+
+            _context.Update(cart);
+        }
+
+        _context.SaveChanges();
+
+        return NoContent();
+    }
+
+    public ShoppingCartsController(AppDbContext context)
+    {
+        _context = context;
+    }
+
     [HttpPost]
     public IActionResult Add(AddShoppingCartDto request)
     {
-        AppDbContext context = new();
-        ShoppingCart cart = new()
+        Book book = _context.Books.Find(request.BookId);
+        if(book is null)
         {
-            BookId = request.BookId,
-            Price = request.Price,
-            Quantity = 1,
-            UserId = request.UserId,
-        };
-        context.Add(cart);
-        context.SaveChanges();
+            throw new Exception("Kitap bulunamadı");
+        }
+
+        if(book.Quantity < request.Quantity)
+        {
+            throw new Exception("Kitap stokta kalmadı!");
+        }
+
+        //Mevcut kitap daha önceden sepete eklendiyese 1 artır.
+        ShoppingCart cart = 
+            _context.ShoppingCarts
+            .Where(p => p.BookId == request.BookId)
+            .FirstOrDefault();
+
+        if(cart is not null)
+        {
+            cart.Quantity += 1;
+            _context.Update(cart);
+        }
+        else
+        {
+            cart = new()
+            {
+                BookId = request.BookId,
+                Price = request.Price,
+                Quantity = 1,
+                UserId = request.UserId,
+            };
+
+            _context.Add(cart);
+        }
+
+        _context.SaveChanges();
         return NoContent();
     }
 
     [HttpGet("{id}")]
     public IActionResult RemoveById(int id)
     {
-        AppDbContext context = new();
-        var shoppingCart = context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
+        var shoppingCart = _context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
         if(shoppingCart != null)
         {
-            context.Remove(shoppingCart);
-            context.SaveChanges();
+            _context.Remove(shoppingCart);
+            _context.SaveChanges();
         }
 
         return NoContent();
@@ -47,8 +127,7 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpGet("{userId}")]
     public IActionResult GetAll(int userId)
     {
-        AppDbContext context = new();
-        List<ShoppingCartResponseDto> books = context.ShoppingCarts.AsNoTracking().Include(p => p.Book).Select(s => new ShoppingCartResponseDto()
+        List<ShoppingCartResponseDto> books = _context.ShoppingCarts.AsNoTracking().Include(p => p.Book).Select(s => new ShoppingCartResponseDto()
         {
             Author = s.Book.Author,
             CoverImageUrl = s.Book.CoverImageUrl,
@@ -69,8 +148,6 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpPost]
     public IActionResult SetShoppingCartsFromLocalStorage(List<SetShoppingCartsDto> request)
     {
-        AppDbContext context = new();
-
         //sepette birden fazla ürün olabilir
         List<ShoppingCart> shoppingCarts = new();
 
@@ -87,8 +164,8 @@ public sealed class ShoppingCartsController : ControllerBase
             shoppingCarts.Add(shoppingCart);
         }
 
-        context.AddRange(shoppingCarts);
-        context.SaveChanges();
+        _context.AddRange(shoppingCarts);
+        _context.SaveChanges();
 
         return NoContent();
     }
@@ -96,6 +173,16 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Payment(PaymentDto requestDto)
     {
+        foreach (var item in requestDto.Books)
+        {
+            Book checkBook = _context.Books.Find(item.Id);
+            if (checkBook.Quantity < item.Quantity)
+            {
+                throw new Exception($"{item.Title} kitap stokta kalmadı!");
+            }
+        }
+
+
         decimal total = 0;
         decimal commission = 0; //komisyon
         foreach (var book in requestDto.Books)
@@ -181,17 +268,22 @@ public sealed class ShoppingCartsController : ControllerBase
         {
             try
             {
-                AppDbContext context = new();
-
                 string orderNumber = Order.GetNewOrderNumber();
 
                 List<Order> orders = new();
                 foreach (var book in requestDto.Books)
                 {
+
+                    //Sipariş tamamlandığında quantity azaltılır
+                    Book changeBookQuantity = _context.Books.Find(book.Id);
+                    changeBookQuantity.Quantity -= book.Quantity;
+                    _context.Update(changeBookQuantity);
+
                     Order order = new()
                     {
                         OrderNumber = orderNumber,
                         BookId = book.Id,
+                        Quantity = book.Quantity,
                         Price = new Money(book.Price.Value, book.Price.Currency),
                         PaymentDate = DateTime.Now,
                         PaymentType = "Credit Cart",
@@ -209,18 +301,18 @@ public sealed class ShoppingCartsController : ControllerBase
                 };
 
 
-                context.Orders.AddRange(orders);
-                context.OrderStatues.Add(orderStatus);
+                _context.Orders.AddRange(orders);
+                _context.OrderStatues.Add(orderStatus);
 
                 //Kullanıcı girişi yapıldıysa bu işlemi yap.
-                Models.User user = context.Users.Find(requestDto.UserId);
+                Models.User user = _context.Users.Find(requestDto.UserId);
                 if (user is not null)
                 {
-                    var shoppingCarts = context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
-                    context.RemoveRange(shoppingCarts); //ödeme yapıldıysa sepeti boşalt.
+                    var shoppingCarts = _context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
+                    _context.RemoveRange(shoppingCarts); //ödeme yapıldıysa sepeti boşalt.
                 }
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 string response = await MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
                 <h1>Siparişiniz Alındı</h1>

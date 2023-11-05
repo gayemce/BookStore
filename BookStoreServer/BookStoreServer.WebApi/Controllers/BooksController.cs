@@ -34,7 +34,7 @@ public sealed class BooksController : ControllerBase
             books = _context.Books
                 .Where(p => p.IsActive == true && p.IsDeleted == false)
                 .Where(p => p.Title.ToLower().Contains(request.Search.ToLower()) || p.ISBN.Contains(request.Search))
-                .OrderByDescending(p => p.CreateAt)
+                .OrderBy(p => p.CreateAt)
                 .Take(request.PageSize)
                 .ToList();
         }
