@@ -20,6 +20,8 @@ import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { MaintenanceComponent } from './components/maintenance/maintenance.component';
+import { OrderComponent } from './components/order/order.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,7 +37,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     IconControlDirective,
     ShoppingCartComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    MaintenanceComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

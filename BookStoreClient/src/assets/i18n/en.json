@@ -10,6 +10,9 @@
     "logout": "Logout",    
     "apiNotAvailable":"Api is bussy right now",
     "apiNotFound": "Api not found", 
+    "orders": "Orders",
+    "price": "Price",
+    "wereWorkingOn": "We encountered an error. We're working on that. Thanks for your understanding!",
     "paymentIsSuccessful": "Payment is successfull",   
     "errorStatusNotFound": "We encountered an unknown error. Please contact with admin",
     "wouldYouLikeToDiscoverHowOurSiteIsUsed": "Would you like to discover how our site is used?",
@@ -69,7 +72,10 @@
         "usernameOrEmail": "Username or Email",
         "password": "Password",
         "signInBtn": "Sign In",
-        "gotoRegisterBtn": "If you don't have an account you can register for free"
+        "gotoRegisterBtn": "You can register for free.",
+        "forgotPassword": "Forgot Password",
+        "dontHaveAnAccount": "Don't have a acoount? "
+
     },
     "signUp": {
         "title" :"Sign Up",
@@ -80,6 +86,19 @@
         "username": "User Name",
         "email": "Email",
         "signUpBtn": "Sign In",
-        "gotoLoginBtn": "If you have a account you can login here"
-    }
+        "gotoLoginBtn": "You can login here.",
+        "alreadyHaveAnAccount": "Already have an account? "
+    },
+    "AwatingApproval": "AwatingApproval",
+    "BeingPrepared": "Being Prepared",
+    "InTransit": "In Transit",
+    "Delivered": "Delivered",
+    "Rejected": "Rejected",
+    "Returned":"Returned",
+    "doComment": "Do Comment",
+    "return": "Return",
+    "comment": "Comment",
+    "raiting": "Raiting",
+    "save": "Save",
+    "close": "Close"
 }

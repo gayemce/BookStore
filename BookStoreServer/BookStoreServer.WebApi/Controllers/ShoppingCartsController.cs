@@ -2,12 +2,14 @@
 using BookStoreServer.WebApi.Dtos;
 using BookStoreServer.WebApi.Enums;
 using BookStoreServer.WebApi.Models;
+using BookStoreServer.WebApi.Options;
 using BookStoreServer.WebApi.Services;
 using BookStoreServer.WebApi.ValueObjects;
 using Iyzipay.Model;
 using Iyzipay.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace BookStoreServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
@@ -15,12 +17,21 @@ namespace BookStoreServer.WebApi.Controllers;
 public sealed class ShoppingCartsController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IyzicoOption _iyzicoOption;
+
+
+    public ShoppingCartsController(AppDbContext context, IOptions<IyzicoOption> iyzicoOption)
+    {
+        _context = context;
+        _iyzicoOption = iyzicoOption.Value;
+    }
+
 
     [HttpGet("{bookId}/{quantity}")]
     public IActionResult CheckBookQuantityIsAvailable(int bookId, int quantity)
     {
         Book book = _context.Books.Find(bookId);
-        if(book.Quantity < quantity)
+        if (book.Quantity < quantity)
         {
             throw new Exception("Stokta bu kadar adet kitap yok!");
         }
@@ -33,7 +44,7 @@ public sealed class ShoppingCartsController : ControllerBase
     {
         ShoppingCart cart = _context.ShoppingCarts.Where(p => p.BookId == bookId).FirstOrDefault();
 
-        if(cart is null)
+        if (cart is null)
         {
             throw new Exception("Kitap sepette bulunamadı");
         }
@@ -47,11 +58,12 @@ public sealed class ShoppingCartsController : ControllerBase
             _context.Remove(cart);
             _context.Update(book);
         }
+
         else
         {
             cart.Quantity = quantity;
 
-            if(book.Quantity < cart.Quantity)
+            if (book.Quantity < cart.Quantity)
             {
                 throw new Exception("Stokta bu kadar adet kitap yok!");
             }
@@ -64,32 +76,27 @@ public sealed class ShoppingCartsController : ControllerBase
         return NoContent();
     }
 
-    public ShoppingCartsController(AppDbContext context)
-    {
-        _context = context;
-    }
-
     [HttpPost]
     public IActionResult Add(AddShoppingCartDto request)
     {
         Book book = _context.Books.Find(request.BookId);
-        if(book is null)
+        if (book is null)
         {
             throw new Exception("Kitap bulunamadı");
         }
 
-        if(book.Quantity < request.Quantity)
+        if (book.Quantity < request.Quantity)
         {
             throw new Exception("Kitap stokta kalmadı!");
         }
 
         //Mevcut kitap daha önceden sepete eklendiyese 1 artır.
-        ShoppingCart cart = 
+        ShoppingCart cart =
             _context.ShoppingCarts
             .Where(p => p.BookId == request.BookId)
             .FirstOrDefault();
 
-        if(cart is not null)
+        if (cart is not null)
         {
             cart.Quantity += 1;
             _context.Update(cart);
@@ -115,7 +122,7 @@ public sealed class ShoppingCartsController : ControllerBase
     public IActionResult RemoveById(int id)
     {
         var shoppingCart = _context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
-        if(shoppingCart != null)
+        if (shoppingCart != null)
         {
             _context.Remove(shoppingCart);
             _context.SaveChanges();
@@ -222,9 +229,9 @@ public sealed class ShoppingCartsController : ControllerBase
 
         //Bağlantı bilgilerini istiyor
         Iyzipay.Options options = new Iyzipay.Options();
-        options.ApiKey = "sandbox-n0iHSihJ3QiTBpPkoZY1eSGxgRFwg5Ij";
-        options.SecretKey = "sandbox-YtwDO7drJMVRnTEUMUy4o9ouPRjh2Qb4";
-        options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        options.ApiKey = _iyzicoOption.ApiKey;
+        options.SecretKey = _iyzicoOption?.SecretKey;
+        options.BaseUrl = _iyzicoOption.BaseUrl;
 
         CreatePaymentRequest request = new CreatePaymentRequest();
         request.Locale = Locale.TR.ToString();
@@ -267,54 +274,55 @@ public sealed class ShoppingCartsController : ControllerBase
         if (payment.Status == "success")
         {
             try
+        {
+            string orderNumber = Order.GetNewOrderNumber();
+
+            List<Order> orders = new();
+            foreach (var book in requestDto.Books)
             {
-                string orderNumber = Order.GetNewOrderNumber();
 
-                List<Order> orders = new();
-                foreach (var book in requestDto.Books)
-                {
+                //Sipariş tamamlandığında quantity azaltılır
+                Book changeBookQuantity = _context.Books.Find(book.Id);
+                changeBookQuantity.Quantity -= book.Quantity;
+                _context.Update(changeBookQuantity);
 
-                    //Sipariş tamamlandığında quantity azaltılır
-                    Book changeBookQuantity = _context.Books.Find(book.Id);
-                    changeBookQuantity.Quantity -= book.Quantity;
-                    _context.Update(changeBookQuantity);
-
-                    Order order = new()
-                    {
-                        OrderNumber = orderNumber,
-                        BookId = book.Id,
-                        Quantity = book.Quantity,
-                        Price = new Money(book.Price.Value, book.Price.Currency),
-                        PaymentDate = DateTime.Now,
-                        PaymentType = "Credit Cart",
-                        PaymentNumber = payment.PaymentId,
-                        CreatedAt = DateTime.Now
-                    };
-                    orders.Add(order);
-                }
-
-                OrderStatus orderStatus = new()
+                Order order = new()
                 {
                     OrderNumber = orderNumber,
-                    Status = OrderStatusEnum.AwatingApproval,
-                    StatusDate = DateTime.Now
+                    BookId = book.Id,
+                    Quantity = book.Quantity,
+                    Price = new Money(book.Price.Value, book.Price.Currency),
+                    PaymentDate = DateTime.Now,
+                    PaymentType = "Credit Cart",
+                    PaymentNumber = payment.PaymentId,
+                    CreatedAt = DateTime.Now,
+                    UserId = requestDto.UserId
                 };
+                orders.Add(order);
+            }
+
+            OrderStatus orderStatus = new()
+            {
+                OrderNumber = orderNumber,
+                Status = OrderStatusEnum.AwatingApproval,
+                StatusDate = DateTime.Now
+            };
 
 
-                _context.Orders.AddRange(orders);
-                _context.OrderStatues.Add(orderStatus);
+            _context.Orders.AddRange(orders);
+            _context.OrderStatues.Add(orderStatus);
 
-                //Kullanıcı girişi yapıldıysa bu işlemi yap.
-                Models.User user = _context.Users.Find(requestDto.UserId);
-                if (user is not null)
-                {
-                    var shoppingCarts = _context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
-                    _context.RemoveRange(shoppingCarts); //ödeme yapıldıysa sepeti boşalt.
-                }
+            //Kullanıcı girişi yapıldıysa bu işlemi yap.
+            Models.User user = _context.Users.Find(requestDto.UserId);
+            if (user is not null)
+            {
+                var shoppingCarts = _context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
+                _context.RemoveRange(shoppingCarts); //ödeme yapıldıysa sepeti boşalt.
+            }
 
-                _context.SaveChanges();
+            _context.SaveChanges();
 
-                string response = await MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
+            string response = await MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
                 <h1>Siparişiniz Alındı</h1>
                 <p>Sipariş Numaranız: {orderNumber}<p>
                 <p>Ödeme Numaranız: {payment.PaymentId}<p>
@@ -323,31 +331,29 @@ public sealed class ShoppingCartsController : ControllerBase
                 <p>Ödeme Tipiniz: Kredi Kartı<p>
                 <p>Ödeme Durumunuz: Onay bekliyor<p>");
 
-               
+        }
+        catch (Exception ex)
+        {
+            //ödeme kırılım ayarı yapmamız lazım ki iyzico ödeme iadesi yapılabilsin
+            CreateRefundRequest refundRequest = new CreateRefundRequest();
+            refundRequest.ConversationId = request.ConversationId;
+            refundRequest.Locale = Locale.TR.ToString();
+            refundRequest.PaymentTransactionId = "1";
+            refundRequest.Price = request.Price;
+            refundRequest.Ip = "85.34.78.112";
+            refundRequest.Currency = currency.ToString();
 
-            }
-            catch(Exception ex)
-            {
-                //ödeme kırılım ayarı yapmamız lazım ki iyzico ödeme iadesi yapılabilsin
-                CreateRefundRequest refundRequest = new CreateRefundRequest();
-                refundRequest.ConversationId = request.ConversationId;
-                refundRequest.Locale = Locale.TR.ToString();
-                refundRequest.PaymentTransactionId = "1";
-                refundRequest.Price = request.Price;
-                refundRequest.Ip = "85.34.78.112";
-                refundRequest.Currency = currency.ToString();
-
-                Refund refund = Refund.Create(refundRequest, options);
+            Refund refund = Refund.Create(refundRequest, options);
 
 
-                return BadRequest(new { Message = "İşlem sırasında bir hata aldık ve paranızı geri iade ettik. Lütfen daha sonra tekrar deneyin ya da müşteri temsilcisi ile iletişime geçin!"});
-            }
+            return BadRequest(new { Message = "İşlem sırasında bir hata aldık ve paranızı geri iade ettik. Lütfen daha sonra tekrar deneyin ya da müşteri temsilcisi ile iletişime geçin!" });
+        }
+
+        return NoContent();
         }
         else
         {
             return BadRequest(payment.ErrorMessage);
         }
-
-        return NoContent();
     }
 }

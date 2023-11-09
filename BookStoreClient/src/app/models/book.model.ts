@@ -13,6 +13,7 @@ export class BookModel{
     categories: string[] = [];
     shoppingCartId: number = 0;
     userId: number = 0;
+    raiting: number = 0;
 }
 
 export class Money{

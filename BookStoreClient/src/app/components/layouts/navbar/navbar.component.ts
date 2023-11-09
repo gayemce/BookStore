@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 

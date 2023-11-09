@@ -10,6 +10,9 @@
     "summary": "Özel",
     "apiNotAvailable":"Api şu anda meşgul",
     "apiNotFound": "Api adresi bulunamadı",
+    "orders": "Siparişler",
+    "price": "Fiyat",
+    "wereWorkingOn": "Bir hatayla karşılaştık üzerinde çalışıyoruz. Anlayışınız için teşekkürler!",
     "errorStatusNotFound": "Bilinmeyen bir hatayla karşılaştık. Lütfen yönetici ile iletişime geçin!",
     "wouldYouLikeToDiscoverHowOurSiteIsUsed": "Siteyi nasıl kullanacağınız keşfetmek ister misiniz?",
     "discover": "Keşfet",
@@ -68,7 +71,9 @@
         "usernameOrEmail": "Kullanıcı adı ya da email",
         "password": "Şifre",
         "signInBtn": "Giriş Yap",
-        "gotoRegisterBtn": "Eğer bir hesabınız yoksa ücretsiz kaydolabilirsiniz"
+        "gotoRegisterBtn": "Ücretsiz kaydolabilirsiniz.",
+        "forgotPassword": "Şifremi Unuttum",
+        "dontHaveAnAccount": "Hesabınız yok mu? "
     },
     "signUp": {
         "title" :"Kayıt Formu",
@@ -79,7 +84,19 @@
         "username": "Kullanıcı Adı",
         "email": "Mail Adresi",
         "signUpBtn": "Kayıt Ol",
-        "gotoLoginBtn": "Eğer hesabınız varsa buradan giriş yapabilirsiniz"
-    }
-    
+        "gotoLoginBtn": "Buradan giriş yapabilirsiniz.",
+        "alreadyHaveAnAccount": "Zaten bir hesabınız var mı? "
+    },
+    "AwatingApproval": "Onay bekliyor",
+    "BeingPrepared": "Hazırlanıyor",
+    "InTransit": "Taşınma aşamasında",
+    "Delivered": "Teslim edildi",
+    "Rejected": "Reddedildi",
+    "Returned":"İade edildi",
+    "doComment": "Yorum Yap",
+    "return": "İade Et",
+    "comment": "Yorum",
+    "raiting": "Yıldız",
+    "save": "Kaydet",
+    "close": "Kapat"    
 }

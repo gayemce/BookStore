@@ -13,6 +13,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 //AppDbContextin instancesini türetir
 builder.Services.AddScoped<AppDbContext>();
 
+builder.Services.AddOptions<IyzicoOption>().BindConfiguration("Iyzico");
+
 builder.Services.AddCors(cfr =>
 {
     cfr.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

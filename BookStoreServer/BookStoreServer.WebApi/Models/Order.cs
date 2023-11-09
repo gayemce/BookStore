@@ -16,11 +16,15 @@ public sealed class Order
     public Book Book { get; set; }
 
     public int Quantity { get; set; }
+    public int? UserId { get; set; }
     public Money Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime PaymentDate { get; set; }
     public string PaymentType { get; set; }
     public string PaymentNumber { get; set; }
+
+    public string? Comment { get; set; }
+    public short? Raiting { get; set; }
 
     public static string GetNewOrderNumber()
     {

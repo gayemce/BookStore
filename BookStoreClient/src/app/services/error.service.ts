@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SwalService } from './swal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ErrorService {
 
   constructor(private swal: SwalService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private router: Router) { }
 
   errorHandler(err: HttpErrorResponse) {
     console.log(err);
@@ -18,6 +20,7 @@ export class ErrorService {
       case 0:
         this.translate.get("apiNotAvailable").subscribe(res => {
           this.swal.callToast(res, "error");
+          document.location.href = "/maintenance";  
         });
         break;
 

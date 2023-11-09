@@ -61,26 +61,10 @@ public sealed class BooksController : ControllerBase
                                  .Select(s => s.Category.Name)
                                  .ToList();
 
-            //var bookDto = new BookDto()
-            //{
-            //    Title = book.Title,
-            //    ISBN = book.ISBN,
-            //    Id = book.Id,
-            //    Author = book.Author,
-            //    Categories =
-            //            context.BookCategories
-            //            .Where(p => p.BookId == book.Id)
-            //            .Include(p => p.Category)
-            //            .Select(s => s.Category.Name)
-            //            .ToList(),
-            //    CoverImageUrl = book.CoverImageUrl,
-            //    CreateAt = book.CreateAt,
-            //    IsActive = book.IsActive,
-            //    IsDeleted = book.IsDeleted,
-            //    Price = book.Price,
-            //    Quantity = book.Quantity,
-            //    Summary = book.Summary
-            //};
+            //tip dönüştürülmesi yapılarak raitingler basıldı
+            var raiting = _context.Orders.Where(p => p.BookId == book.Id && p.Raiting != null).Average(p => p.Raiting);
+            bookDto.Raiting = (short)(raiting == null ? 0 : Convert.ToInt16(Math.Round((decimal)raiting)));
+
             requestDto.Add(bookDto);
         }
 
