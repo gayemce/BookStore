@@ -1,6 +1,7 @@
 <h1 class="text-center mt-2">{{'orders' | translate}}</h1>
 
-<div class="card mt-1 position-relative" *ngFor="let o of orders, let i = index">
+@for (o of orders; track o) {
+<div class="card mt-1 position-relative">
     <div class="row">
         <div class="col-2 text-center card-image-div">
             <img class="card-image" [src]="o.book.coverImageUrl" alt="">
@@ -14,12 +15,16 @@
             </div>
             <div class="form-group">
                 <b>{{'price' | translate}}</b>:
-                <span *ngIf="language=='tr'">
+                @if (language=='tr') {
+                <span>
                     {{o.price.value | trCurrency}} {{o.price.currency}}
                 </span>
-                <span *ngIf="language!='tr'">
+                }
+                @if (language!='tr') {
+                <span>
                     {{o.price.value | currency: '':'':'1.2-2'}} {{o.price.currency}}
                 </span>
+                }
             </div>
         </div>
         <div class="col-lg-6 col-12">
@@ -30,23 +35,28 @@
                             <div class="card-body">
                                 <h6 class="card-title">Order Status</h6>
                                 <div id="content">
-                                    <ul *ngFor="let orderStatus of o.orderStatuses" class="timeline">
+                                    @for (orderStatus of o.orderStatuses; track orderStatus) {
+                                    <ul class="timeline">
                                         <li class="event">
                                             <p>{{orderStatus.statusDate | date: 'dd.MM.yyyy HH:mm'}}</p>
                                             <h3>{{translateOrderStatus(orderStatusEnum[orderStatus.status]) | async}}
                                             </h3>
-                                            <div *ngIf="orderStatus.status == 3">
+                                            @if (orderStatus.status == 3) {
+                                            <div>
                                                 <button (click)="selectedOrderForComment(o)" data-bs-toggle="modal"
                                                     data-bs-target="#commentModal" class="btn btn-primary">
                                                     {{'doComment' | translate}}
                                                 </button>
-                                                <button *ngIf="hasTheReturnPeriodPassed(orderStatus.statusDate)"
-                                                    class="btn btn-danger ms-1">
+                                                @if (hasTheReturnPeriodPassed(orderStatus.statusDate)) {
+                                                <button class="btn btn-danger ms-1">
                                                     {{'return' | translate}}
                                                 </button>
+                                                }
                                             </div>
+                                            }
                                         </li>
                                     </ul>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -56,6 +66,7 @@
         </div>
     </div>
 </div>
+}
 
 
 <!-- Modal -->

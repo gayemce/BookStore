@@ -20,6 +20,7 @@ export class ErrorService {
       case 0:
         this.translate.get("apiNotAvailable").subscribe(res => {
           this.swal.callToast(res, "error");
+          //sayfa devamlı yenileme yaparsa bu koddan kaynaklı
           document.location.href = "/maintenance";  
         });
         break;

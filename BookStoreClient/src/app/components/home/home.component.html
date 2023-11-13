@@ -1,154 +1,598 @@
-<div class="card mt-3">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>{{'homePage' | translate}}</h4>
-        <!-- <div>
-            <a routerLink="/">{{'homePage' | translate}}</a>
-        </div> -->
+@if (isLoading) {
+
+}
+@else {
+    <section class="header">
+        <div class="main">
+            <div class="main_tag">
+                <h1>{{'welcomeTo' | translate}}<br><span>BOOK STORE</span></h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda molestias atque laborum
+                    non fuga ex deserunt. Exercitationem velit ducimus praesentium, obcaecati hic voluptate id
+                    tenetur fuga illum quidem omnis? Rerum?
+                </p>
+            </div>
+            <div class="main_img">
+                <img src="/assets/image/table.png">
+            </div>
+        </div>
+    </section>
+
+
+<!--Banner Sales-->
+<div class="banner_sales">
+</div>
+
+<!--Bestseller-->
+
+<div id="bestseller" class="bestseller">
+    <h1>Bestseller</h1>
+    <div class="arrivals_box">
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_1.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_2.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_3.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_4.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_5.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_6.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_7.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_8.webp">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_9.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="arrivals_card">
+            <div class="arrivals_image">
+                <img src="/assets/image/arrival_10.jpg">
+            </div>
+            <div class="arrivals_tag">
+                <p>New Arrivals</p>
+                <div class="arrivals_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a href="#" class="arrivals_btn">Learn More</a>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Loading -->
-<div class="row mt-4" *ngIf="isLoading">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3>{{ "categories" | translate }}</h3>
-            </div>
-            <div class="card-body">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <input [(ngModel)]="searchCategory" type="search" class="form-control"
-                        placeholder="{{ 'search' | translate }}" />
+
+<!--Books-->
+
+<div id="books" class="featured_books">
+    <h1>Featured Books</h1>
+    <div class="work-container">
+        <div class="slider-button" (click)="leftSlider()">&#9664;</div>
+        <div class="work-list">
+            <div class="work">
+                <img src="/assets/image/book_1.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
                 </div>
-                <ul class="categories placeholder-glow">
-                    <li class="category loader-category placeholder" *ngFor="let l of loaderDatas" disabled>
-                    </li>
-                </ul>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_2.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_3.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_4.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_5.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_6.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_9.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_11.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_5.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_2.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="/assets/image/book_1.jpg">
+                <div class="layer">
+                    <h2>Featured Book</h2>
+                    <br>
+                    <p class="author">Jonnie Deep</p>
+                    <br>
+                    <div class="categories">Thriller, Horror, Romance</div>
+                    <br>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus
+                        iure
+                        distinctio!</p>
+                    <a href="#" class="btn">Add Cart</a>
+                </div>
             </div>
         </div>
+        <div class="slider-button" (click)="rightSlider()">&#9654;</div>
     </div>
-    <div class="col-lg-9 col-md-8 col-sm-6 col-12">
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
-                class="form-control" placeholder="{{ 'search' | translate }}" />
+</div>
+
+<!--Banner-->
+
+<div class="banner">
+
+</div>
+
+<!--reviews-->
+
+<div id="reviews" class="reviews">
+    <h1>Reviews
+        <i class="fa-regular fa-comments"></i>
+    </h1>
+
+    <div class="review_box">
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_1.png">
+            </div>
+            <div class="card">
+                <h2>John Deo</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let l of loaderDatas">
-                <div class="card text-center">
-                    <div class="card-body placeholder-glow">
-                        <div class="card-img-top mt-2 loading placeholder"></div>
-                    </div>
-                    <div class="card-header placeholder-glow">
-                        <h5 class="card-title"></h5>
-                        <p class="placeholder"></p>
-                    </div>
-                    <div class="card-body placeholder-glow">
-                        <p class="card-text placeholder"></p>
-                        <button iconControl disabled
-                            class="btn btn-outline-secondary d-flex placeholder justify-content-between w-100 align-items-center loading">
-                            <span></span>
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_2.png">
+            </div>
+            <div class="card">
+                <h2>Linda Nayrobe</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_3.png">
+            </div>
+            <div class="card">
+                <h2>Tobby Krats</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_4.png">
+            </div>
+            <div class="card">
+                <h2>Tina Mateo</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_3.png">
+            </div>
+            <div class="card">
+                <h2>Tonny Stark</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/rte_profile.png">
+            </div>
+            <div class="card">
+                <h2>Soldier Born</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/db_profile.png">
+            </div>
+            <div class="card">
+                <h2>State Garden</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_card">
+            <i class="fa-solid fa-quote-right"></i>
+            <div class="card_top">
+                <img src="/assets/image/review_2.png">
+            </div>
+            <div class="card">
+                <h2>Jane Blanc</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus eos doloribus iure
+                    distinctio! Eos dolorem quam, nisi amet saepe totam, quas quidem laboriosam dolore,
+                    tenetur itaque nostrum voluptas excepturi aut.
+                </p>
+                <div class="review_icon">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Content -->
-<div class="row mt-4" *ngIf="!isLoading">
-    <!-- Left Categories -->
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-        <div class="card">
-            <div class="card-header" id="categories">
-                <h3>{{ "categories" | translate }}</h3>
-              </div>
-            <div class="card-body">
-                <!-- Search -->
-                <div class="input-group mb-3">
-                    <input [(ngModel)]="searchCategory" type="search" class="form-control"
-                        placeholder="{{'search' | translate}}">
-                    <span class="input-group-text" id="basic-addon1">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                </div>
-                <ul class="categories">
-                    <li (click)="changeCategory(null)" [ngClass]="request.categoryId === null ? 'active' : '' ">
-                        {{'allCategories' | translate}}
-                    </li>
-                    <li (click)="changeCategory(c.id)" [ngClass]="request.categoryId === c.id ? 'active' : '' "
-                        *ngFor="let c of categories | category:searchCategory">
-                        {{c.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- Search & Products -->
-    <div class="col-lg-9 col-md-8 col-sm-6 col-12">
-        <!-- Search -->
-        <div class="input-group mb-3" id="bookSearch">
-            <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
-                class="form-control" placeholder="{{'search' | translate}}">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-        </div>
-        <!-- Products -->
-        <div class="row">
-            <div class="col-xl-4 col-md-6 col-12 mb-2" id="book{{i}}" *ngFor="let b of books let i = index">
-                <div class="card text-center">
-                    <div class="card-header">
-                        <img [src]="b.coverImageUrl" class="card-img-top mt-2" alt="image">
-                    </div>
-                    <div class="card-body">
-                        <p>{{b.author}}</p>
-                        <!-- Categories -->
-                        <h5 class="card-title">{{b.title}}</h5>
-                        <ul class="d-flex list-unstyled justify-content-center">
-                            <li *ngFor="let c of b.categories">{{c}}</li>
-                        </ul>
+<!--Services-->
 
-                        <div>
-                            <i class="fa-star cursor font-size-lg"
-                                [ngClass]="b.raiting >= 1 ? 'fa-solid text-warning': 'fa-regular'"></i>
-                            <i class="fa-star cursor font-size-lg"
-                                [ngClass]="(b.raiting >= 2) ? 'fa-solid text-warning': 'fa-regular'"></i>
-                            <i class="fa-star cursor font-size-lg"
-                                [ngClass]="(b.raiting >= 3) ? 'fa-solid text-warning': 'fa-regular'"></i>
-                            <i class="fa-star cursor font-size-lg"
-                                [ngClass]="(b.raiting >= 4) ? 'fa-solid text-warning': 'fa-regular'"></i>
-                            <i class="fa-star cursor font-size-lg"
-                                [ngClass]="(b.raiting == 5) ? 'fa-solid text-warning': 'fa-regular'"></i>
-                        </div>
-
-                        <!-- Book out of stock button -->
-                        <button *ngIf="b.quantity <= 0" class="btn btn-danger text-center w-100" disabled type="button">
-                            <i class="fa-solid fa-hourglass me-1"></i>
-                            <span>{{'bookQuantityIsNotEnough' | translate}}</span>
-                        </button>
-                        
-                        <!-- Add shopping cart button -->
-                        <button *ngIf="b.quantity > 0" iconControl id="addShoppingCartBtn{{i}}"
-                            class="btn btn-outline-secondary d-flex justify-content-between w-100 align-items-center"
-                            (click)="addShoppingCart(b)">
-                            <span>{{b.price.value | currency:'':'':'1.2-2'}} {{b.price.currency}}</span>
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+<div class="services">
+    <div class="services_box">
+        <div class="services_card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h3>Fast Delivery</h3>
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </p>
         </div>
-
-        <!-- infiniteScroll -->
-        <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
-            (scrolled)="feedData()">
+        <div class="services_card">
+            <i class="fa-solid fa-headset"></i>
+            <h3>24 x 7 Services</h3>
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </p>
+        </div>
+        <div class="services_card">
+            <i class="fa-solid fa-tag"></i>
+            <h3>Best Deal</h3>
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </p>
+        </div>
+        <div class="services_card">
+            <i class="fa-solid fa-lock"></i>
+            <h3>Secure Payment</h3>
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            </p>
         </div>
     </div>
 </div>
+
+}

@@ -85,7 +85,7 @@
         "password": "Password",
         "username": "User Name",
         "email": "Email",
-        "signUpBtn": "Sign In",
+        "signUpBtn": "Sign Up",
         "gotoLoginBtn": "You can login here.",
         "alreadyHaveAnAccount": "Already have an account? "
     },
@@ -100,5 +100,9 @@
     "comment": "Comment",
     "raiting": "Raiting",
     "save": "Save",
-    "close": "Close"
+    "close": "Close",
+    "navbar": {
+        "myBookStore": "Book Store",
+        "searchBookAuthor": "search book or author"
+    }
 }

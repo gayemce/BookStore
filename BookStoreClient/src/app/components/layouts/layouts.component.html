@@ -1,6 +1,9 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<div class="popup" *ngIf="popup.isPopupShow && !popup.notShowThisPopup">
+<app-footer></app-footer>
+
+@if (popup.isPopupShow && !popup.notShowThisPopup) {
+<div class="popup">
     <p>{{'wouldYouLikeToDiscoverHowOurSiteIsUsed' | translate}}</p>
     <button (click)="showDriver()" class="btn btn-warning">
         <i class="fa-solid fa-info"></i>
@@ -19,3 +22,4 @@
           </div>
       </div>
 </div>
+}

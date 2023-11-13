@@ -1,43 +1,70 @@
 import { Component } from '@angular/core';
-import { Route, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Route, Router, RouterLink } from '@angular/router';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
+import { NgIf, NgClass, CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css'],
+    standalone: true,
+    imports: [CommonModule, RouterLink, NgIf, FormsModule, NgClass, TranslateModule]
 })
 export class NavbarComponent { 
-  language: string = "en";
+  select = "en";
+  options = [
+    { text: 'English', image: 'assets/united-kingdom.png' },
+    { text: 'Türkçe', image: 'assets/turkey.png' }, 
+  ]
+  selectedOption = 'English';
+  showOptions = false;
 
   constructor(
     private translate: TranslateService,
     public shopping: ShoppingCartService,
     public auth: AuthService,
     private router: Router
-
     ) {
       if(localStorage.getItem("language")){
-        this.language = localStorage.getItem("language") as string;
+        this.select = localStorage.getItem("language") as string;
+        if(this.select == "en"){
+          this.selectedOption = "English";
+        }else{
+          this.selectedOption = "Türkçe";
+        }
       }
 
-      translate.setDefaultLang( this.language);
-    
+      translate.setDefaultLang(this.select);
+      
+  }
+
+  toggleSelect() {
+    this.showOptions = !this.showOptions;
   }
   
-  switchLanguage(event: any) {
-    localStorage.setItem("language",event.target.value);
-    this.language = event.target.value
-    this.translate.use(this.language);
+  selectOption(option: any) {
+    this.selectedOption = option.text;
+    if (option.text == 'English') {
+      this.select = 'en';
+    } else if (option.text == 'Türkçe') {
+      this.select = 'tr';
+    } else {
+      this.select = 'en';
+    }
+
+    localStorage.setItem("language",this.select);
+    this.translate.use(this.select);
     location.reload();
-  }
+  }  
 
   logout(){
     localStorage.removeItem("response");
     this.shopping.getAllShoppingCarts();
     this.router.navigateByUrl("/login");
+    this.auth.isAuthentication(); //giriş çıkış yapıldığın aldığı değerini sıfırlaması için
   }
 }
+

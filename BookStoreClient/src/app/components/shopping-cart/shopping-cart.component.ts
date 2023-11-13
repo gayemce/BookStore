@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { PaymentModel } from 'src/app/models/payment.model';
 import { Cities, Countries } from 'src/app/constants/address';
 import { SwalService } from 'src/app/services/swal.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { TrCurrencyPipe } from 'tr-currency';
+import { FormsModule } from '@angular/forms';
+import { NgIf, NgFor, NgClass, CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-shopping-cart',
-  templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.css']
+    selector: 'app-shopping-cart',
+    templateUrl: './shopping-cart.component.html',
+    styleUrls: ['./shopping-cart.component.css'],
+    standalone: true,
+    imports: [RouterLink, NgIf, NgFor, NgClass, FormsModule, CurrencyPipe, TrCurrencyPipe, TranslateModule]
 })
 export class ShoppingCartComponent {
 

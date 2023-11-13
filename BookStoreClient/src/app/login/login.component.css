@@ -19,6 +19,7 @@ h1{
 }
 
 a{
+  color: #FFF;
   text-decoration: none;
 }
 
@@ -200,6 +201,7 @@ img{
   }
 
   .login__img{
+    margin-top: 5rem;
     display: flex;
     width: 600px;
     height: 588px;
@@ -218,7 +220,7 @@ img{
   }
 
   .login__registre{
-    bottom: -2rem;
+    bottom: -5rem;
   }
 
   .login__create{

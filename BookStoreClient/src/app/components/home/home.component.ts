@@ -4,17 +4,24 @@ import { RequestModel } from '../../models/request.model';
 import { BookModel } from '../../models/book.model';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { SwalService } from '../../services/swal.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { AddShoppingCartModel } from 'src/app/models/add-shopping-cart.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { PopupService } from 'src/app/services/popup.service';
+import { CategoryPipe } from '../../pipes/category.pipe';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { IconControlDirective } from '../../directives/icon-control.directive';
+import { FormsModule } from '@angular/forms';
+import { NgIf, NgFor, NgClass, CurrencyPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: true,
+    imports: [NgIf, FormsModule, NgFor, IconControlDirective, NgClass, InfiniteScrollModule, CurrencyPipe, TranslateModule, CategoryPipe]
 })
 export class HomeComponent {
   books: BookModel[] = []; //book.model.ts oluşturuldu
@@ -55,7 +62,7 @@ export class HomeComponent {
       this.http.post("https://localhost:7289/api/ShoppingCarts/Add", data).subscribe({
         next: (res: any) => {
           this.shopping.getAllShoppingCarts();
-          this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
+          this.translate.get("addBookInShoppingCartIsSuccessful").subscribe((res:any) => {
             this.swal.callToast(res);
           });
         },
@@ -66,7 +73,7 @@ export class HomeComponent {
     }
     else {
       if (book.quantity < 1) {
-        this.translate.get("bookQuantityIsNotEnough").subscribe(res => {
+        this.translate.get("bookQuantityIsNotEnough").subscribe((res:any) => {
           this.swal.callToast(res, "error");
         })
       }
@@ -86,7 +93,7 @@ export class HomeComponent {
 
         this.shopping.calcTotal();
         localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
-        this.translate.get("addBookInShoppingCartIsSuccessful").subscribe(res => {
+        this.translate.get("addBookInShoppingCartIsSuccessful").subscribe((res:any) => {
           this.swal.callToast(res);
         });
       }
@@ -138,4 +145,21 @@ export class HomeComponent {
         }
       });
   }
+
+  leftSlider() {
+    const workList:any = document.querySelector(".work-list");
+    const slideAmount = 295;  
+    workList.scrollLeft -= slideAmount * 1;
+    workList.scrollLeft = Math.max(0, workList.scrollLeft);
+  }
+
+  rightSlider(){
+    const workList:any = document.querySelector(".work-list");
+    const slideAmount = 295; 
+    const maxScroll = slideAmount * (11) -5;
+    workList.scrollLeft += slideAmount * 1;
+    workList.scrollLeft = Math.min(maxScroll, workList.scrollLeft);
+    
+  }
+
 }
