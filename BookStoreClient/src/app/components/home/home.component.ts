@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RequestModel } from '../../models/request.model';
 import { BookModel } from '../../models/book.model';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
@@ -14,6 +14,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { IconControlDirective } from '../../directives/icon-control.directive';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor, NgClass, CurrencyPipe } from '@angular/common';
+import { OrderModel } from 'src/app/models/order-model';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -21,9 +23,9 @@ import { NgIf, NgFor, NgClass, CurrencyPipe } from '@angular/common';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
     standalone: true,
-    imports: [NgIf, FormsModule, NgFor, IconControlDirective, NgClass, InfiniteScrollModule, CurrencyPipe, TranslateModule, CategoryPipe]
+    imports: [NgIf, FormsModule, NgFor, IconControlDirective, NgClass, InfiniteScrollModule, CurrencyPipe, TranslateModule, CategoryPipe, RouterLink]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   books: BookModel[] = []; //book.model.ts oluşturuldu
   categories: any = [];
   pageNumbers: number[] = [];
@@ -32,14 +34,13 @@ export class HomeComponent {
   newData: any[] = [];
   loaderDatas = [1, 2, 3, 4, 5, 6];
   isLoading: boolean = true;
+  bestsellers: BookModel[] = [];
+  newBooks: BookModel[] = [];
+  lastComments: OrderModel[] = [];
 
   constructor(
     private http: HttpClient,
-    private shopping: ShoppingCartService,
-    private swal: SwalService,
-    private translate: TranslateService,
     private error: ErrorService,
-    private auth: AuthService,
     private popup: PopupService
   ) {
     //login girişi yapıldığında kullanıcının kaldığı kategoriden devam eder.
@@ -48,58 +49,49 @@ export class HomeComponent {
       const requestObj = JSON.parse(requestString);
       this.request = requestObj;
     }
+    
+  }
+
+  //html tarafı tasarlandıktan sonra çalışır. Constructor class newlenirken oluşur.
+  ngOnInit(): void {
     this.getCategories();
+    this.getBestsellers();
+    this.getNewBooks();
+    this.getLastComments();
   }
 
-  addShoppingCart(book: BookModel) {
-    if (localStorage.getItem("response")) {
-      const data: AddShoppingCartModel = new AddShoppingCartModel();
-      data.bookId = book.id;
-      data.price = book.price;
-      data.quantity = 1;
-      data.userId = this.auth.userId;
-
-      this.http.post("https://localhost:7289/api/ShoppingCarts/Add", data).subscribe({
-        next: (res: any) => {
-          this.shopping.getAllShoppingCarts();
-          this.translate.get("addBookInShoppingCartIsSuccessful").subscribe((res:any) => {
-            this.swal.callToast(res);
-          });
-        },
-        error: (err: HttpErrorResponse) => {
-          this.error.errorHandler(err);
-        }
-      });
-    }
-    else {
-      if (book.quantity < 1) {
-        this.translate.get("bookQuantityIsNotEnough").subscribe((res:any) => {
-          this.swal.callToast(res, "error");
-        })
+  getBestsellers() {
+    this.http.get<BookModel[]>('https://localhost:7289/api/Home/Bestsellers/').subscribe({
+      next: (res: any) => {
+        this.bestsellers = res;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error.errorHandler(err);
       }
-      else {
-        const checkBookIsAlreadyExists = this.shopping.shoppingCarts.filter(p => p.id == book.id)[0];
-
-        //Aynı kitap sepette mevcutsa
-        if (checkBookIsAlreadyExists !== undefined) {
-          this.shopping.shoppingCarts.filter(p => p.id == book.id)[0].quantity += 1
-        }
-        //daha önceden hiç eklenmediyse 1 adet eklenir
-        else {
-          const newBook = { ...book };
-          newBook.quantity = 1
-          this.shopping.shoppingCarts.push(newBook);
-        }
-
-        this.shopping.calcTotal();
-        localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
-        this.translate.get("addBookInShoppingCartIsSuccessful").subscribe((res:any) => {
-          this.swal.callToast(res);
-        });
-      }
-    }
+    });
   }
 
+  getNewBooks() {
+    this.http.get<BookModel[]>('https://localhost:7289/api/Home/GetNewBooks/').subscribe({
+      next: (res: any) => {
+        this.newBooks = res;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error.errorHandler(err);
+      }
+    });
+  }
+
+  getLastComments() {
+    this.http.get<OrderModel[]>('https://localhost:7289/api/Home/GetLastComments/').subscribe({
+      next: (res: any) => {
+        this.lastComments = res;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error.errorHandler(err);
+      }
+    });
+  }
 
   feedData() {
     this.request.pageSize += 10;

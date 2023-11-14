@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MaintenanceComponent } from './components/maintenance/maintenance.component';
 import { OrderComponent } from './components/order/order.component';
+import { BookDetailComponent } from './components/book-detail/book-detail.component';
 
 const routes: Routes = [
   {
@@ -36,9 +37,17 @@ const routes: Routes = [
       {
         path: "orders",
         component: OrderComponent
+      },
+      {
+        path: "book-detail/:value",
+        component: BookDetailComponent
       }
+      // {
+      //   path: "book-detail/:value",
+      //   loadComponent:()=> import("./components/book-detail/book-detail.component")
+      // }
     ]
-  }
+  }  
 ];
 
 @NgModule({

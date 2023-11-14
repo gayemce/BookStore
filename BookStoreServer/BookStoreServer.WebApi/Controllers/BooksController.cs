@@ -70,4 +70,11 @@ public sealed class BooksController : ControllerBase
 
         return Ok(requestDto);
     }
+
+    //id'ye göre kitap detayını getirir.
+    public IActionResult GetById(int id)
+    {
+        var book = _context.Books.Find(id);
+        return Ok(book);
+    }
 }
